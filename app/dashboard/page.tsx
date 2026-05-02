@@ -1,16 +1,12 @@
 import { StatsCards } from "@/components/StatsCards";
 import { AnalyticsChart } from "@/components/AnalyticsChart";
+import { prisma } from "@/lib/prisma";
 
 async function getAnalytics() {
-  try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL ?? ""}/api/analytics`, {
-      cache: "no-store"
-    });
-    if (!res.ok) throw new Error("analytics fetch failed");
-    return (await res.json()) as { total: number; revenue: number; avg: number };
-  } catch {
-    return { total: 0, revenue: 0, avg: 0 };
-  }
+  const orders = await prisma.order.findMany();
+  const total = orders.length;
+  const revenue = orders.reduce((sum, o) => sum + o.totalPrice, 0);
+  return { total, revenue, avg: total ? revenue / total : 0 };
 }
 
 export default async function DashboardPage() {

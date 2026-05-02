@@ -2,7 +2,9 @@
   "name": "site-for-ai-specialist",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "clean": "node -e \"require('fs').rmSync('.next',{recursive:true,force:true});\"",
+    "dev": "next dev -p 3002",
+    "dev:clean": "node -e \"try{require('fs').rmSync('.next',{recursive:true,force:true})}catch(e){}\" && next dev -p 3002",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
