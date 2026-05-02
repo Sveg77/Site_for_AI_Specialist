@@ -1,0 +1,1103 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Калькулятор услуг специалиста по нейросетям</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 24px;
+      font-family: Arial, Helvetica, sans-serif;
+      background: linear-gradient(180deg, #f4f7fb 0%, #eef3ff 100%);
+      color: #1f2937;
+    }
+
+    .theme-toggle {
+      position: fixed;
+      top: 16px;
+      right: 16px;
+      z-index: 1000;
+      border: 1px solid #cbd5e1;
+      border-radius: 999px;
+      padding: 10px 14px;
+      background: #ffffff;
+      color: #1f2937;
+      font-size: 14px;
+      font-weight: bold;
+      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.12);
+    }
+
+    .theme-toggle:hover {
+      background: #f3f4f6;
+    }
+
+    /* Кнопка переключения языка: фиксированно в правом нижнем углу */
+    .lang-toggle {
+      position: fixed;
+      bottom: 16px;
+      right: 16px;
+      z-index: 1000;
+      border: 1px solid #cbd5e1;
+      border-radius: 999px;
+      padding: 10px 14px;
+      background: #ffffff;
+      color: #1f2937;
+      font-size: 14px;
+      font-weight: bold;
+      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.12);
+      cursor: pointer;
+    }
+
+    .lang-toggle:hover {
+      background: #f3f4f6;
+    }
+
+    .landing {
+      max-width: 1280px;
+      margin: 0 auto 20px;
+      padding: 28px;
+      border-radius: 20px;
+      border: 1px solid #dbe4ee;
+      background: linear-gradient(135deg, #ffffff 0%, #f0f9f7 100%);
+      box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+    }
+
+    .landing h1 {
+      margin: 0 0 12px;
+      font-size: 40px;
+      line-height: 1.1;
+      color: #0f172a;
+    }
+
+    .landing-subtitle {
+      margin: 0;
+      max-width: 900px;
+      font-size: 18px;
+      line-height: 1.6;
+      color: #334155;
+    }
+
+    .landing-grid {
+      margin-top: 22px;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 12px;
+    }
+
+    .landing-card {
+      padding: 14px;
+      border-radius: 14px;
+      border: 1px solid #dbe4ee;
+      background: #ffffff;
+      color: #1f2937;
+    }
+
+    .landing-card strong {
+      display: block;
+      margin-bottom: 6px;
+      color: #0f172a;
+    }
+
+    .landing-cta {
+      margin-top: 22px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .landing-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 12px;
+      padding: 13px 18px;
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: bold;
+      background: #1D4241;
+      color: #ffffff;
+    }
+
+    .landing-button:hover {
+      background: #163433;
+    }
+
+    .landing-cta-note {
+      font-size: 14px;
+      color: #475569;
+    }
+
+    .calculator-wrapper {
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+
+    .calculator-card {
+      background: #ffffff;
+      border-radius: 20px;
+      box-shadow: 0 12px 40px rgba(15, 23, 42, 0.08);
+      overflow: hidden;
+      border: 1px solid #e5e7eb;
+    }
+
+    .calculator-header {
+      padding: 32px 28px;
+      color: #ffffff;
+      background: #1D4241;
+    }
+
+    .calculator-header h1 {
+      margin: 0 0 10px;
+      font-size: 32px;
+      line-height: 1.15;
+    }
+
+    .calculator-header p {
+      margin: 0;
+      font-size: 16px;
+      line-height: 1.6;
+      opacity: 0.96;
+      max-width: 980px;
+    }
+
+    .calculator-body {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 24px;
+      padding: 24px;
+    }
+
+    .left-column,
+    .right-column {
+      min-width: 0;
+    }
+
+    .section {
+      margin-bottom: 22px;
+      padding: 20px;
+      border: 1px solid #e5e7eb;
+      border-radius: 16px;
+      background: #fafcff;
+    }
+
+    .section h2 {
+      margin: 0 0 16px;
+      font-size: 21px;
+      color: #111827;
+    }
+
+    .field {
+      margin-bottom: 16px;
+    }
+
+    .field:last-child {
+      margin-bottom: 0;
+    }
+
+    .field label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+      font-size: 14px;
+      color: #374151;
+    }
+
+    select,
+    input[type="number"],
+    input[type="text"],
+    textarea {
+      width: 100%;
+      padding: 13px 14px;
+      border: 1px solid #cbd5e1;
+      border-radius: 12px;
+      font-size: 15px;
+      outline: none;
+      transition: 0.2s ease;
+      background: #fff;
+      color: #111827;
+    }
+
+    select:focus,
+    input[type="number"]:focus,
+    input[type="text"]:focus,
+    textarea:focus {
+      border-color: #1D4241;
+      box-shadow: 0 0 0 3px rgba(29, 66, 65, 0.14);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 120px;
+    }
+
+    .helper-text {
+      margin-top: 8px;
+      font-size: 13px;
+      color: #6b7280;
+      line-height: 1.5;
+    }
+
+    .service-meta {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    .meta-card {
+      padding: 12px 14px;
+      border-radius: 12px;
+      background: #eef6f5;
+      border: 1px solid #cfe1de;
+    }
+
+    .meta-card-title {
+      font-size: 12px;
+      color: #4b5563;
+      margin-bottom: 4px;
+    }
+
+    .meta-card-value {
+      font-size: 14px;
+      font-weight: bold;
+      color: #1D4241;
+      line-height: 1.4;
+    }
+
+    .btn-add {
+      width: 100%;
+      margin-top: 14px;
+      border: none;
+      border-radius: 12px;
+      padding: 14px 16px;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+      background: #1D4241;
+      color: #ffffff;
+      transition: 0.2s ease;
+    }
+
+    .btn-add:hover {
+      background: #163433;
+    }
+
+    .selected-services {
+      margin-top: 18px;
+      display: grid;
+      gap: 14px;
+    }
+
+    .service-item {
+      border: 1px solid #d5e5e3;
+      background: #ffffff;
+      border-radius: 14px;
+      padding: 16px;
+    }
+
+    .service-item-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: flex-start;
+      margin-bottom: 12px;
+    }
+
+    .service-item-title {
+      font-size: 15px;
+      font-weight: bold;
+      line-height: 1.45;
+      color: #111827;
+    }
+
+    .service-item-subtitle {
+      margin-top: 4px;
+      font-size: 13px;
+      color: #6b7280;
+      line-height: 1.45;
+    }
+
+    .btn-delete {
+      flex-shrink: 0;
+      border: none;
+      border-radius: 10px;
+      padding: 10px 12px;
+      font-size: 13px;
+      font-weight: bold;
+      cursor: pointer;
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    .btn-delete:hover {
+      background: #fecaca;
+    }
+
+    .service-item-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 12px;
+      align-items: end;
+    }
+
+    .service-item-total {
+      margin-top: 12px;
+      padding: 12px 14px;
+      border-radius: 12px;
+      background: #f5f9f8;
+      border: 1px solid #d9e5e3;
+      font-size: 14px;
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .service-item-total strong {
+      font-size: 16px;
+      color: #1D4241;
+    }
+
+    .checkbox-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .checkbox-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 12px;
+      border: 1px solid #d5e5e3;
+      background: #ffffff;
+      border-radius: 12px;
+    }
+
+    .checkbox-item input {
+      margin-top: 3px;
+      transform: scale(1.1);
+      accent-color: #1D4241;
+    }
+
+    .checkbox-item label {
+      margin: 0;
+      font-weight: normal;
+      font-size: 14px;
+      line-height: 1.45;
+      cursor: pointer;
+    }
+
+    .result-box {
+      position: sticky;
+      top: 20px;
+      padding: 22px;
+      border-radius: 18px;
+      background: #111827;
+      color: #ffffff;
+    }
+
+    .result-box h2 {
+      margin: 0 0 16px;
+      font-size: 22px;
+    }
+
+    .price-main {
+      font-size: 42px;
+      font-weight: bold;
+      margin: 8px 0 18px;
+      line-height: 1.1;
+    }
+
+    .result-note {
+      margin-bottom: 16px;
+      padding: 12px 14px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      font-size: 13px;
+      line-height: 1.55;
+      color: #e5e7eb;
+    }
+
+    .breakdown {
+      background: rgba(255, 255, 255, 0.06);
+      border-radius: 14px;
+      padding: 14px;
+      margin-bottom: 18px;
+    }
+
+    .breakdown-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 9px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      font-size: 14px;
+      align-items: center;
+    }
+
+    .breakdown-row:last-child {
+      border-bottom: none;
+    }
+
+    .breakdown-row strong {
+      color: #ffffff;
+      text-align: right;
+    }
+
+    .discount-auto-row strong {
+      color: #86efac;
+    }
+
+    .selected-summary-list {
+      margin-top: 12px;
+      padding: 12px 14px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 12px;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .btn-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    button {
+      border: none;
+      border-radius: 12px;
+      padding: 13px 16px;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    .btn-primary {
+      background: #1D4241;
+      color: #ffffff;
+    }
+
+    .btn-primary:hover {
+      background: #163433;
+    }
+
+    .btn-secondary {
+      background: #dfe8e6;
+      color: #1D4241;
+    }
+
+    .btn-secondary:hover {
+      background: #d2dfdc;
+    }
+
+    .summary-box {
+      margin-top: 18px;
+      padding: 14px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 12px;
+      font-size: 14px;
+      line-height: 1.6;
+      white-space: pre-line;
+    }
+
+    .empty-state {
+      padding: 14px;
+      border-radius: 12px;
+      background: #ffffff;
+      border: 1px dashed #cbd5e1;
+      color: #64748b;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .footer-note {
+      margin-top: 16px;
+      font-size: 12px;
+      color: #6b7280;
+      line-height: 1.5;
+    }
+
+    body,
+    .calculator-card,
+    .section,
+    .service-item,
+    .service-item-total,
+    .checkbox-item,
+    .meta-card,
+    .empty-state,
+    select,
+    input[type="number"],
+    input[type="text"],
+    textarea,
+    .summary-box,
+    .selected-summary-list,
+    .btn-secondary,
+    .theme-toggle {
+      transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+    }
+
+    body.dark-theme {
+      background: linear-gradient(180deg, #0b1220 0%, #111827 100%);
+      color: #e5e7eb;
+    }
+
+    body.dark-theme .calculator-card {
+      background: #111827;
+      border-color: #374151;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+    }
+
+    body.dark-theme .section,
+    body.dark-theme .service-item,
+    body.dark-theme .empty-state {
+      background: #1f2937;
+      border-color: #374151;
+      color: #e5e7eb;
+    }
+
+    body.dark-theme .section h2,
+    body.dark-theme .service-item-title,
+    body.dark-theme .field label,
+    body.dark-theme .checkbox-item label {
+      color: #f9fafb;
+    }
+
+    body.dark-theme .helper-text,
+    body.dark-theme .service-item-subtitle,
+    body.dark-theme .footer-note {
+      color: #9ca3af;
+    }
+
+    body.dark-theme select,
+    body.dark-theme input[type="number"],
+    body.dark-theme input[type="text"],
+    body.dark-theme textarea {
+      background: #111827;
+      color: #f3f4f6;
+      border-color: #4b5563;
+    }
+
+    body.dark-theme .meta-card,
+    body.dark-theme .service-item-total {
+      background: #0f172a;
+      border-color: #334155;
+    }
+
+    body.dark-theme .meta-card-title {
+      color: #9ca3af;
+    }
+
+    body.dark-theme .meta-card-value,
+    body.dark-theme .service-item-total strong {
+      color: #a7f3d0;
+    }
+
+    body.dark-theme .btn-secondary {
+      background: #374151;
+      color: #e5e7eb;
+    }
+
+    body.dark-theme .btn-secondary:hover {
+      background: #4b5563;
+    }
+
+    body.dark-theme .summary-box,
+    body.dark-theme .selected-summary-list {
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    body.dark-theme .theme-toggle {
+      background: #1f2937;
+      color: #f9fafb;
+      border-color: #4b5563;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    }
+
+    body.dark-theme .theme-toggle:hover {
+      background: #374151;
+    }
+
+    body.dark-theme .lang-toggle {
+      background: #1f2937;
+      color: #f9fafb;
+      border-color: #4b5563;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    }
+
+    body.dark-theme .lang-toggle:hover {
+      background: #374151;
+    }
+
+    body.dark-theme .landing {
+      border-color: #334155;
+      background: linear-gradient(135deg, #1f2937 0%, #0f172a 100%);
+      box-shadow: 0 16px 34px rgba(0, 0, 0, 0.35);
+    }
+
+    body.dark-theme .landing h1 {
+      color: #f8fafc;
+    }
+
+    body.dark-theme .landing-subtitle {
+      color: #cbd5e1;
+    }
+
+    body.dark-theme .landing-card {
+      background: #0f172a;
+      border-color: #334155;
+      color: #dbeafe;
+    }
+
+    body.dark-theme .landing-card strong {
+      color: #f8fafc;
+    }
+
+    body.dark-theme .landing-cta-note {
+      color: #94a3b8;
+    }
+
+    @media (max-width: 960px) {
+      .landing {
+        padding: 20px;
+      }
+
+      .landing h1 {
+        font-size: 30px;
+      }
+
+      .landing-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .calculator-body {
+        grid-template-columns: 1fr;
+      }
+
+      .result-box {
+        position: static;
+      }
+
+      .checkbox-grid,
+      .service-meta,
+      .btn-row,
+      .service-item-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .price-main {
+        font-size: 34px;
+      }
+
+      .service-item-top,
+      .service-item-total,
+      .breakdown-row {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Кнопка переключения темы: фиксированно в правом верхнем углу -->
+  <button type="button" id="themeToggleBtn" class="theme-toggle" aria-label="Переключить тему">
+    🌙 Тёмная тема
+  </button>
+
+  <!-- Кнопка переключения языка (RU / EN): фиксированно в правом нижнем углу -->
+  <button type="button" id="langToggleBtn" class="lang-toggle" aria-label="Switch language">
+    EN
+  </button>
+
+  <!-- Приветственный лендинг: короткое описание специалиста и быстрый вход в калькулятор -->
+  <section class="landing">
+    <h1 data-i18n="landing.title">Специалист по нейросетям для бизнеса</h1>
+    <p class="landing-subtitle" data-i18n="landing.subtitle">
+      Помогаю внедрять ИИ в маркетинг, контент и продажи: от консультаций до готовых воронок,
+      GPT-ассистентов и полного ведения соцсетей. Ниже можно сразу посчитать стоимость проекта.
+    </p>
+
+    <div class="landing-grid">
+      <div class="landing-card">
+        <strong data-i18n="landing.card1Title">Быстрый старт</strong>
+        <span data-i18n="landing.card1Text">Первая консультация до 15 минут бесплатно, чтобы определить формат работы.</span>
+      </div>
+      <div class="landing-card">
+        <strong data-i18n="landing.card2Title">Прозрачная стоимость</strong>
+        <span data-i18n="landing.card2Text">Калькулятор считает услуги, коэффициенты сложности и скидки в реальном времени.</span>
+      </div>
+      <div class="landing-card">
+        <strong data-i18n="landing.card3Title">Результат под нишу</strong>
+        <span data-i18n="landing.card3Text">Решения адаптируются под вашу аудиторию, задачи и текущий этап бизнеса.</span>
+      </div>
+    </div>
+
+    <div class="landing-cta">
+      <a class="landing-button" href="#calculator" data-i18n="landing.cta">Перейти к калькулятору</a>
+      <span class="landing-cta-note" data-i18n="landing.ctaNote">Нажмите кнопку, чтобы перейти к расчёту проекта</span>
+    </div>
+  </section>
+
+  <!-- Основной контейнер калькулятора -->
+  <div class="calculator-wrapper" id="calculator">
+    <div class="calculator-card">
+      <div class="calculator-header">
+        <h1 data-i18n="calc.title">Калькулятор услуг специалиста по нейросетям</h1>
+        <!-- Текст с выделением: подставляется из словаря переводов (innerHTML) -->
+        <p id="calcIntro" data-i18n-html="calc.introHtml"></p>
+      </div>
+
+      <div class="calculator-body">
+        <div class="left-column">
+          <div class="section">
+            <h2 data-i18n="section1.title">1. Добавление основных услуг</h2>
+
+            <div class="field">
+              <label for="serviceType" data-i18n="label.service">Выберите услугу</label>
+              <select id="serviceType">
+                <optgroup data-group-key="og_consult" label="Консультации">
+                  <option value="0" data-opt-key="opt_consult_free" data-unit-type="fixed" data-unit-label="услуга" data-unit-note="Фиксированная цена" data-is-from="false">
+                    Первая консультация (строго до 15 минут) — Бесплатно
+                  </option>
+                  <option value="2000" data-opt-key="opt_consult_hour" data-unit-type="hour" data-unit-label="час" data-unit-note="Цена указана за 1 час" data-is-from="false">
+                    Консультация по возможностям применения нейросетей в нише клиента — 2000 ₽/час
+                  </option>
+                </optgroup>
+
+                <optgroup data-group-key="og_content" label="Контент и маркетинг">
+                  <option value="10000" data-opt-key="opt_train_chatgpt" data-unit-type="fixed" data-unit-label="услуга" data-unit-note="Стартовая цена" data-is-from="true">
+                    Обучение ChatGPT под нишу клиента — от 10 000 ₽
+                  </option>
+                  <option value="15000" data-opt-key="opt_unpack" data-unit-type="fixed" data-unit-label="услуга" data-unit-note="Стартовая цена" data-is-from="true">
+                    Проведение распаковки личности — от 15 000 ₽
+                  </option>
+                  <option value="20000" data-opt-key="opt_audience" data-unit-type="fixed" data-unit-label="услуга" data-unit-note="Стартовая цена" data-is-from="true">
+                    Изучение целевой аудитории — от 20 000 ₽
+                  </option>
+                  <option value="3000" data-opt-key="opt_competitors" data-unit-type="fixed" data-unit-label="услуга" data-unit-note="Стартовая цена" data-is-from="true">
+                    Проведение конкурентного анализа и выделение УТП клиента — от 3000 ₽
+                  </option>
+                  <option value="5000" data-opt-key="opt_content_plan_1" data-unit-type="fixed" data-unit-label="услуга" data-unit-note="Стартовая цена" data-is-from="true">
+                    Составление контент-плана для одной соцсети — от 5000 ₽
+                  </option>
+                  <option value="15000" data-opt-key="opt_content_plan_all" data-unit-type="fixed" data-unit-label="услуга" data-unit-note="Стартовая цена" data-is-from="true">
+                    Составление контент-плана для всех соцсетей — от 15 000 ₽
+                  </option>
+                  <option value="1000" data-opt-key="opt_texts_prompts" data-unit-type="chars1000" data-unit-label="1000 знаков" data-unit-note="Цена указана за 1000 знаков" data-is-from="true">
+                    Создание текстов на основе готовых промптов — от 1000 ₽ / 1000 знаков
+                  </option>
+                  <option value="1000" data-opt-key="opt_texts_selling" data-unit-type="chars1000" data-unit-label="1000 знаков" data-unit-note="Цена указана за 1000 знаков" data-is-from="true">
+                    Создание продающих текстов для любой ниши — от 1000 ₽ / 1000 знаков
+                  </option>
+                  <option value="30000" data-opt-key="opt_funnel" data-unit-type="fixed" data-unit-label="услуга" data-unit-note="Стартовая цена" data-is-from="true">
+                    Создание эффективной воронки продаж — от 30 000 ₽
+                  </option>
+                  <option value="15000" data-opt-key="opt_warmup" data-unit-type="fixed" data-unit-label="услуга" data-unit-note="Стартовая цена" data-is-from="true">
+                    Создание прогрева для продажи товара/услуги — от 15 000 ₽
+                  </option>
+                  <option value="15000" data-opt-key="opt_landing" data-unit-type="fixed" data-unit-label="услуга" data-unit-note="Фиксированная цена" data-is-from="false">
+                    Создание структуры продающего лендинга (+ сам сайт) — 15 000 ₽
+                  </option>
+                  <option value="800" data-opt-key="opt_video_script_1" data-unit-type="piece" data-unit-label="штука" data-unit-note="Цена указана за 1 штуку" data-is-from="false">
+                    Написание сценариев для коротких видеороликов (1 шт.) — 800 ₽
+                  </option>
+                  <option value="6000" data-opt-key="opt_video_script_10" data-unit-type="package" data-unit-label="пакет" data-package-size="10" data-unit-note="Фиксированная цена за пакет из 10 штук" data-is-from="false">
+                    Написание сценариев для коротких видеороликов (10 шт.) — 6000 ₽
+                  </option>
+                  <option value="5000" data-opt-key="opt_story_5" data-unit-type="package" data-unit-label="пакет" data-package-size="5" data-unit-note="Фиксированная цена за пакет из 5 сториз" data-is-from="false">
+                    Сторителлинг (5 сториз) — 5000 ₽
+                  </option>
+                  <option value="800" data-opt-key="opt_story_6plus" data-unit-type="story" data-unit-label="сториз" data-unit-note="Цена указана за 1 сториз" data-is-from="true">
+                    Сторителлинг (от 6 сториз) — 800 ₽ / 1 шт.
+                  </option>
+                  <option value="10000" data-opt-key="opt_prompts_pack" data-unit-type="package" data-unit-label="пакет" data-package-size="5" data-unit-note="Стартовая цена за пакет из 5 промптов" data-is-from="true">
+                    Создание промптов для любой ниши (пакет 5 промптов) — от 10 000 ₽
+                  </option>
+                  <option value="10000" data-opt-key="opt_gpts" data-unit-type="fixed" data-unit-label="услуга" data-unit-note="Стартовая цена" data-is-from="true">
+                    Создание GPTs-агентов (помощников) для любой ниши — от 10 000 ₽
+                  </option>
+                </optgroup>
+
+                <optgroup data-group-key="og_media" label="Мультимедиа и дизайн">
+                  <option value="350" data-opt-key="opt_photo_1" data-unit-type="photo" data-unit-label="фото" data-unit-note="Цена указана за 1 фото" data-is-from="false">
+                    Нейрофотосессия (1 фото) — 350 ₽
+                  </option>
+                  <option value="3000" data-opt-key="opt_photo_10" data-unit-type="package" data-unit-label="пакет" data-package-size="10" data-unit-note="Фиксированная цена за пакет из 10 фото" data-is-from="false">
+                    Нейрофотосессия (10 фото) — 3000 ₽
+                  </option>
+                  <option value="5000" data-opt-key="opt_avatar" data-unit-type="fixed" data-unit-label="услуга" data-unit-note="Фиксированная цена" data-is-from="false">
+                    Создание цифрового аватара — 5000 ₽
+                  </option>
+                  <option value="600" data-opt-key="opt_creatives" data-unit-type="piece" data-unit-label="штука" data-unit-note="Цена указана за 1 штуку" data-is-from="true">
+                    Создание креативов для таргетированной рекламы — от 600 ₽ / шт.
+                  </option>
+                  <option value="800" data-opt-key="opt_illustrations" data-unit-type="piece" data-unit-label="штука" data-unit-note="Цена указана за 1 штуку" data-is-from="true">
+                    Создание иллюстраций — от 800 ₽ / шт.
+                  </option>
+                  <option value="1000" data-opt-key="opt_video" data-unit-type="piece" data-unit-label="штука" data-unit-note="Цена указана за 1 штуку" data-is-from="true">
+                    Создание видео, нейроклипов — от 1000 ₽ / шт.
+                  </option>
+                  <option value="1000" data-opt-key="opt_music" data-unit-type="fixed" data-unit-label="услуга" data-unit-note="Стартовая цена" data-is-from="true">
+                    Создание музыки — от 1000 ₽
+                  </option>
+                  <option value="6000" data-opt-key="opt_logo" data-unit-type="fixed" data-unit-label="услуга" data-unit-note="Стартовая цена" data-is-from="true">
+                    Создание логотипа — от 6000 ₽
+                  </option>
+                  <option value="500" data-opt-key="opt_mp_cards" data-unit-type="piece" data-unit-label="штука" data-unit-note="Цена указана за 1 штуку" data-is-from="true">
+                    Создание карточек для маркетплейсов — от 500 ₽ / шт.
+                  </option>
+                  <option value="2000" data-opt-key="opt_vk_page" data-unit-type="fixed" data-unit-label="услуга" data-unit-note="Стартовая цена" data-is-from="true">
+                    Оформление личной страницы ВКонтакте — от 2000 ₽
+                  </option>
+                  <option value="3000" data-opt-key="opt_account_design" data-unit-type="fixed" data-unit-label="услуга" data-unit-note="Стартовая цена" data-is-from="true">
+                    Оформление 1 аккаунта в ВКонтакте / Instagram / Telegram — от 3000 ₽
+                  </option>
+                  <option value="1000" data-opt-key="opt_animation" data-unit-type="fixed" data-unit-label="услуга" data-unit-note="Стартовая цена" data-is-from="true">
+                    Анимация картинок, обработка текста — от 1000 ₽
+                  </option>
+                  <option value="2000" data-opt-key="opt_forms_pdf" data-unit-type="fixed" data-unit-label="услуга" data-unit-note="Стартовая цена" data-is-from="true">
+                    Создание анкет, опросников, PDF-презентаций по готовому тексту — от 2000 ₽
+                  </option>
+                  <option value="800" data-opt-key="opt_hashtags" data-unit-type="fixed" data-unit-label="услуга" data-unit-note="Стартовая цена" data-is-from="true">
+                    Анализ и подбор целевых хештегов — от 800 ₽
+                  </option>
+                </optgroup>
+
+                <optgroup data-group-key="og_smm" label="Полное ведение соцсетей">
+                  <option value="70000" data-opt-key="opt_account_full" data-unit-type="fixed" data-unit-label="услуга" data-unit-note="Фиксированная цена" data-is-from="false">
+                    Создание 1 аккаунта с нуля с полным комплексом услуг — 70 000 ₽
+                  </option>
+                  <option value="40000" data-opt-key="opt_smm_full" data-unit-type="fixed" data-unit-label="услуга" data-unit-note="Стартовая цена" data-is-from="true">
+                    Полное ведение 1 аккаунта любой соцсети — от 40 000 ₽
+                  </option>
+                </optgroup>
+              </select>
+
+              <div class="helper-text" data-i18n="helper.pickService">
+                Выбери услугу, укажи количество и нажми кнопку «Добавить услугу в расчёт».
+              </div>
+
+              <div class="service-meta">
+                <div class="meta-card">
+                  <div class="meta-card-title" data-i18n="meta.priceFormat">Формат цены</div>
+                  <div class="meta-card-value" id="serviceUnitNote">Фиксированная цена</div>
+                </div>
+                <div class="meta-card">
+                  <div class="meta-card-title" data-i18n="meta.tariffType">Тип тарифа</div>
+                  <div class="meta-card-value" id="serviceFromNote">Фиксированная стоимость</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="serviceQuantity" id="serviceQuantityLabel">Количество</label>
+              <input type="number" id="serviceQuantity" min="1" step="1" value="1" />
+              <div class="helper-text" id="serviceQuantityHelp">
+                Для фиксированных услуг обычно используется 1.
+              </div>
+            </div>
+
+            <button type="button" class="btn-add" id="addServiceBtn" data-i18n="btn.addService">
+              Добавить услугу в расчёт
+            </button>
+
+            <div class="selected-services" id="selectedServicesContainer">
+              <div class="empty-state" data-i18n="empty.noServices">
+                Пока ни одна основная услуга не добавлена.
+              </div>
+            </div>
+          </div>
+
+          <div class="section">
+            <h2 data-i18n="section2.title">2. Общие коэффициенты для проекта</h2>
+
+            <div class="field">
+              <label for="complexity" data-i18n="label.complexity">Уровень сложности</label>
+              <select id="complexity">
+                <option value="1" data-i18n="complexity.1">Базовый — x1.0</option>
+                <option value="1.3" data-i18n="complexity.13">Средний — x1.3</option>
+                <option value="1.7" data-i18n="complexity.17">Продвинутый — x1.7</option>
+                <option value="2.2" data-i18n="complexity.22">Экспертный — x2.2</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="urgency" data-i18n="label.urgency">Срочность выполнения</label>
+              <select id="urgency">
+                <option value="1" data-i18n="urgency.1">Стандартные сроки — x1.0</option>
+                <option value="1.2" data-i18n="urgency.12">Срочно (3–5 дней) — x1.2</option>
+                <option value="1.5" data-i18n="urgency.15">Очень срочно (1–2 дня) — x1.5</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="section">
+            <h2 data-i18n="section3.title">3. Дополнительные опции</h2>
+
+            <div class="checkbox-grid">
+              <div class="checkbox-item">
+                <input type="checkbox" id="optionTraining" data-price="5000" />
+                <label for="optionTraining" data-i18n="option.training">Обучение команды работе с ИИ +5 000 ₽</label>
+              </div>
+
+              <div class="checkbox-item">
+                <input type="checkbox" id="optionDocs" data-price="3000" />
+                <label for="optionDocs" data-i18n="option.docs">Подготовка документации +3 000 ₽</label>
+              </div>
+
+              <div class="checkbox-item">
+                <input type="checkbox" id="optionSupport" data-price="7000" />
+                <label for="optionSupport" data-i18n="option.support">Поддержка 30 дней +7 000 ₽</label>
+              </div>
+
+              <div class="checkbox-item">
+                <input type="checkbox" id="optionIntegration" data-price="10000" />
+                <label for="optionIntegration" data-i18n="option.integration">Интеграция с CRM / Telegram / сайтом +10 000 ₽</label>
+              </div>
+
+              <div class="checkbox-item">
+                <input type="checkbox" id="optionAnalytics" data-price="4000" />
+                <label for="optionAnalytics" data-i18n="option.analytics">Аналитика и рекомендации +4 000 ₽</label>
+              </div>
+
+              <div class="checkbox-item">
+                <input type="checkbox" id="optionBranding" data-price="2500" />
+                <label for="optionBranding" data-i18n="option.branding">Кастомизация под бренд +2 500 ₽</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="section">
+            <h2 data-i18n="section4.title">4. Доработки и ручная скидка</h2>
+
+            <div class="field">
+              <label for="extraHours" data-i18n="label.extraHours">Дополнительные часы работ</label>
+              <input type="number" id="extraHours" min="0" step="1" value="0" />
+            </div>
+
+            <div class="field">
+              <label for="hourRate" data-i18n="label.hourRate">Стоимость 1 часа доработок (₽)</label>
+              <input type="number" id="hourRate" min="0" step="100" value="2500" />
+            </div>
+
+            <div class="field">
+              <label for="discount" data-i18n="label.discount">Дополнительная ручная скидка (%)</label>
+              <input type="number" id="discount" min="0" max="100" step="1" value="0" />
+              <div class="helper-text" data-i18n="helper.manualDiscount">
+                Эта скидка применяется отдельно после автоматической скидки 10%, если она сработала.
+              </div>
+            </div>
+          </div>
+
+          <div class="section">
+            <h2 data-i18n="section5.title">5. Данные клиента</h2>
+
+            <div class="field">
+              <label for="clientName" data-i18n="label.clientName">Имя клиента / компания</label>
+              <input type="text" id="clientName" data-i18n-placeholder="placeholder.clientName" placeholder="Например: ООО Ромашка" />
+            </div>
+
+            <div class="field">
+              <label for="projectComment" data-i18n="label.projectComment">Комментарий к задаче</label>
+              <textarea id="projectComment" data-i18n-placeholder="placeholder.projectComment" placeholder="Например: нужно 3 часа консультации, 2 креатива и оформление Telegram-аккаунта"></textarea>
+            </div>
+          </div>
+        </div>
+
+        <div class="right-column">
+          <div class="result-box">
+            <h2 data-i18n="result.title">Итоговый расчёт</h2>
+            <div class="price-main" id="totalPrice">0 ₽</div>
+
+            <div class="result-note" id="resultNote" data-i18n="result.noteDefault">
+              Автоматическая скидка 10% применяется, если сумма услуг после коэффициентов вместе с доп. опциями превышает 20 000 ₽.
+            </div>
+
+            <div class="breakdown">
+              <div class="breakdown-row">
+                <span data-i18n="breakdown.servicesRaw">Сумма по основным услугам</span>
+                <strong id="servicesRawTotalLabel">0 ₽</strong>
+              </div>
+
+              <div class="breakdown-row">
+                <span data-i18n="breakdown.complexity">Коэффициент сложности</span>
+                <strong id="complexityLabel">x1</strong>
+              </div>
+
+              <div class="breakdown-row">
+                <span data-i18n="breakdown.urgency">Коэффициент срочности</span>
+                <strong id="urgencyLabel">x1</strong>
+              </div>
+
+              <div class="breakdown-row">
+                <span data-i18n="breakdown.afterCoeffs">После коэффициентов</span>
+                <strong id="servicesCalculatedTotalLabel">0 ₽</strong>
+              </div>
+
+              <div class="breakdown-row">
+                <span data-i18n="breakdown.options">Доп. опции</span>
+                <strong id="optionsLabel">0 ₽</strong>
+              </div>
+
+              <div class="breakdown-row">
+                <span data-i18n="breakdown.autoBase">Сумма для автоскидки</span>
+                <strong id="autoDiscountBaseLabel">0 ₽</strong>
+              </div>
+
+              <div class="breakdown-row discount-auto-row">
+                <span data-i18n="breakdown.autoDiscount">Автоматическая скидка 10%</span>
+                <strong id="autoDiscountLabel">0 ₽</strong>
+              </div>
+
+              <div class="breakdown-row">
+                <span data-i18n="breakdown.afterAuto">После автоскидки</span>
+                <strong id="afterAutoDiscountLabel">0 ₽</strong>
+              </div>
+
+              <div class="breakdown-row">
+                <span data-i18n="breakdown.extra">Доработки</span>
+                <strong id="extraHoursLabel">0 ₽</strong>
+              </div>
+
+              <div class="breakdown-row">
+                <span data-i18n="breakdown.manual">Ручная скидка</span>
+                <strong id="discountLabel">0 ₽</strong>
+              </div>
+            </div>
+
+            <div class="selected-summary-list" id="selectedSummaryList" data-i18n="summary.empty">
+              Основные услуги пока не выбраны.
+            </div>
+
+            <div class="btn-row">
+              <button class="btn-primary" id="copySummaryBtn" data-i18n="btn.copy">Копировать заявку</button>
+              <button class="btn-secondary" id="resetBtn" data-i18n="btn.reset">Сбросить</button>
+            </div>
+
+            <div class="summary-box" id="summaryBox" data-i18n="summary.placeholder">
+              Здесь появится текст заявки для отправки клиенту.
+            </div>
+          </div>
+
+          <div class="footer-note" data-i18n="footer.note">
+            Подходит для Tilda, HTML-блоков, лендингов, Taplink и любых онлайн-конструкторов,
+            где можно вставить HTML + CSS + JS.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Внешние скрипты: словари RU/EN и логика калькулятора -->
+  <script src="assets/js/i18n.js"></script>
+  <script src="assets/js/calculator.js"></script>
+</body>
+</html>
