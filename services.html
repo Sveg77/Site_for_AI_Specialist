@@ -18,6 +18,7 @@
       <nav class="nav" data-nav>
         <a href="index.html">Главная</a>
         <a href="services.html">Услуги</a>
+        <a href="calculator.html">Калькулятор</a>
         <a href="portfolio.html">Портфолио</a>
         <a href="about.html">Обо мне</a>
         <a href="contacts.html">Контакты</a>
@@ -28,27 +29,113 @@
   <main class="section">
     <div class="container">
       <span class="label">Прайс и форматы работы</span>
-      <h1 class="section-title" style="margin-top:12px;">Актуальные услуги по данным из вашего прайса</h1>
-      <p class="section-subtitle">Стоимость зависит от сроков, сложности, функционала и уровня упаковки проекта. Ниже — ориентиры, которые можно детализировать после брифа.</p>
+      <h1 class="section-title" style="margin-top:12px;">Услуги и предварительный расчёт стоимости</h1>
+      <p class="section-subtitle">
+        Полный перечень услуг и стартовые цены — как в
+        <a class="muted-link" href="calculator.html">калькуляторе предварительной стоимости</a>.
+        Там же можно собрать предварительную смету с учётом количества, сложности и срочности, а также отправить заявку в CRM.
+      </p>
+      <p class="section-subtitle">
+        Запрос на услуги не является оформленным заказом: все расчёты на сайте — предварительные.
+        Окончательная стоимость проекта определяется только после оформления проекта, так как в процессе работы
+        могут понадобиться дополнительные инструменты, время и услуги.
+      </p>
 
-      <div class="cards">
-        <article class="card"><h3>Чат-бот без ИИ</h3><p>Пошаговые сценарии, меню, FAQ, сбор заявок, базовые автоворонки.</p><div class="price">от 10 000 ₽</div></article>
-        <article class="card"><h3>Чат-бот с ИИ</h3><p>GPT-ассистент, консультант, обработка запросов и ответы клиентам в реальном времени.</p><div class="price">от 20 000 ₽</div></article>
-        <article class="card"><h3>Лендинг (1 страница)</h3><p>Продающий одностраничник для услуги, эксперта, продукта или мероприятия.</p><div class="price">от 10 000 ₽</div></article>
-        <article class="card"><h3>Многостраничный сайт</h3><p>Структура из нескольких разделов: услуги, кейсы, формы, доверительные блоки.</p><div class="price">от 50 000 ₽</div></article>
-        <article class="card"><h3>Мобильное приложение</h3><p>Интерфейс, бизнес-логика, интеграции и сценарии взаимодействия с пользователями.</p><div class="price">от 75 000 ₽</div></article>
-        <article class="card"><h3>Стратегия роста чека</h3><p>Позиционирование, упаковка экспертности, переход от стартовых заказов к премиум-сегменту.</p><div class="price">по запросу</div></article>
+      <div class="services-accordion">
+        <details class="service-category" open>
+          <summary>Консультации</summary>
+          <ul class="service-list">
+            <li><span class="service-name">Первая консультация (строго до 15 минут)</span><span class="service-price">Бесплатно</span></li>
+            <li><span class="service-name">Консультация по возможностям применения нейросетей в нише клиента</span><span class="service-price">2000 ₽/час</span></li>
+          </ul>
+        </details>
+
+        <details class="service-category">
+          <summary>Вайбкодинг</summary>
+          <ul class="service-list">
+            <li><span class="service-name">Чат-бот без ИИ (пошаговый сценарий, кнопки, меню, заявки, FAQ)</span><span class="service-price">от 10 000 ₽</span></li>
+            <li><span class="service-name">Чат-бот с ИИ (ассистент / консультант, GPT, продажи)</span><span class="service-price">от 20 000 ₽</span></li>
+            <li><span class="service-name">Лендинг (1 страница)</span><span class="service-price">от 10 000 ₽</span></li>
+            <li><span class="service-name">Многостраничный сайт (компания, каталог, формы)</span><span class="service-price">от 50 000 ₽</span></li>
+            <li><span class="service-name">Мобильное приложение</span><span class="service-price">от 75 000 ₽</span></li>
+          </ul>
+        </details>
+
+        <details class="service-category">
+          <summary>Контент и маркетинг</summary>
+          <ul class="service-list">
+            <li><span class="service-name">Обучение ChatGPT под нишу клиента</span><span class="service-price">от 10 000 ₽</span></li>
+            <li><span class="service-name">Проведение распаковки личности</span><span class="service-price">от 15 000 ₽</span></li>
+            <li><span class="service-name">Изучение целевой аудитории</span><span class="service-price">от 20 000 ₽</span></li>
+            <li><span class="service-name">Проведение конкурентного анализа и выделение УТП клиента</span><span class="service-price">от 3000 ₽</span></li>
+            <li><span class="service-name">Составление контент-плана для одной соцсети</span><span class="service-price">от 5000 ₽</span></li>
+            <li><span class="service-name">Составление контент-плана для всех соцсетей</span><span class="service-price">от 15 000 ₽</span></li>
+            <li><span class="service-name">Создание текстов на основе готовых промптов</span><span class="service-price">от 1000 ₽ / 1000 знаков</span></li>
+            <li><span class="service-name">Создание продающих текстов для любой ниши</span><span class="service-price">от 1000 ₽ / 1000 знаков</span></li>
+            <li><span class="service-name">Создание эффективной воронки продаж</span><span class="service-price">от 30 000 ₽</span></li>
+            <li><span class="service-name">Создание прогрева для продажи товара/услуги</span><span class="service-price">от 15 000 ₽</span></li>
+            <li><span class="service-name">Создание структуры продающего лендинга (+ сам сайт)</span><span class="service-price">15 000 ₽</span></li>
+            <li><span class="service-name">Написание сценариев для коротких видеороликов (1 шт.)</span><span class="service-price">800 ₽</span></li>
+            <li><span class="service-name">Написание сценариев для коротких видеороликов (10 шт.)</span><span class="service-price">6000 ₽</span></li>
+            <li><span class="service-name">Сторителлинг (5 сториз)</span><span class="service-price">5000 ₽</span></li>
+            <li><span class="service-name">Сторителлинг (от 6 сториз)</span><span class="service-price">800 ₽ / шт.</span></li>
+            <li><span class="service-name">Создание промптов для любой ниши (пакет 5 промптов)</span><span class="service-price">от 10 000 ₽</span></li>
+            <li><span class="service-name">Создание GPTs-агентов (помощников) для любой ниши</span><span class="service-price">от 10 000 ₽</span></li>
+          </ul>
+        </details>
+
+        <details class="service-category">
+          <summary>Мультимедиа и дизайн</summary>
+          <ul class="service-list">
+            <li><span class="service-name">Нейрофотосессия (1 фото)</span><span class="service-price">350 ₽</span></li>
+            <li><span class="service-name">Нейрофотосессия (10 фото)</span><span class="service-price">3000 ₽</span></li>
+            <li><span class="service-name">Создание цифрового аватара</span><span class="service-price">5000 ₽</span></li>
+            <li><span class="service-name">Создание креативов для таргетированной рекламы</span><span class="service-price">от 600 ₽ / шт.</span></li>
+            <li><span class="service-name">Создание иллюстраций</span><span class="service-price">от 800 ₽ / шт.</span></li>
+            <li><span class="service-name">Создание видео, нейроклипов</span><span class="service-price">от 1000 ₽ / шт.</span></li>
+            <li><span class="service-name">Создание музыки</span><span class="service-price">от 1000 ₽</span></li>
+            <li><span class="service-name">Создание логотипа</span><span class="service-price">от 6000 ₽</span></li>
+            <li><span class="service-name">Создание карточек для маркетплейсов</span><span class="service-price">от 500 ₽ / шт.</span></li>
+            <li><span class="service-name">Оформление личной страницы ВКонтакте</span><span class="service-price">от 2000 ₽</span></li>
+            <li><span class="service-name">Оформление 1 аккаунта в ВКонтакте / Instagram / Telegram</span><span class="service-price">от 3000 ₽</span></li>
+            <li><span class="service-name">Анимация картинок, обработка текста</span><span class="service-price">от 1000 ₽</span></li>
+            <li><span class="service-name">Создание анкет, опросников, PDF-презентаций по готовому тексту</span><span class="service-price">от 2000 ₽</span></li>
+            <li><span class="service-name">Анализ и подбор целевых хештегов</span><span class="service-price">от 800 ₽</span></li>
+          </ul>
+        </details>
+
+        <details class="service-category">
+          <summary>Полное ведение соцсетей</summary>
+          <ul class="service-list">
+            <li><span class="service-name">Создание 1 аккаунта с нуля с полным комплексом услуг</span><span class="service-price">70 000 ₽</span></li>
+            <li><span class="service-name">Полное ведение 1 аккаунта любой соцсети</span><span class="service-price">от 40 000 ₽</span></li>
+          </ul>
+        </details>
       </div>
 
       <div class="contact-box">
-        <h2>Быстрый расчёт проекта</h2>
-        <p class="section-subtitle">Для детального просчёта используйте ваш калькулятор: <a class="muted-link" href="Калькулятор.html">открыть калькулятор стоимости</a>.</p>
+        <h2>Рассчитать предварительную стоимость</h2>
+        <p class="section-subtitle" style="margin-top:0;">
+          Соберите предварительную смету с учётом количества, сложности и срочности в
+          <a class="muted-link" href="calculator.html">калькуляторе предварительной стоимости →</a>
+        </p>
+      </div>
+
+      <div class="cards">
+        <article class="card"><h3>Стратегия роста чека</h3><p>Позиционирование, упаковка экспертности, переход от стартовых заказов к премиум-сегменту. Обсуждается отдельно.</p><div class="price">по запросу</div></article>
       </div>
     </div>
   </main>
 
   <footer class="site-footer">
-    <div class="container">© <span data-year></span> Светлана Глазова</div>
+    <div class="container">
+      <div class="contact-actions cta-row">
+        <a class="btn btn-primary" href="https://t.me/Sveg77" target="_blank" rel="noopener noreferrer">Telegram</a>
+        <a class="btn btn-primary" href="https://wa.me/79605166925" target="_blank" rel="noopener noreferrer">WA</a>
+        <a class="btn btn-primary" href="mailto:sveg77@mail.ru">Email</a>
+      </div>
+      <div>© <span data-year></span> Светлана Глазова</div>
+    </div>
   </footer>
   <script src="app.js"></script>
 </body>

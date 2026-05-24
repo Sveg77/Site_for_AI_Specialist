@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Калькулятор — Светлана Глазова</title>
+  <meta name="description" content="Предварительный расчёт стоимости услуг: услуги, сложность, срочность и скидки.">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-row">
+      <a class="logo-wrap" href="index.html">
+        <img class="logo" src="Моя монограмма зеленый.png" alt="Логотип">
+        <div>
+          <div class="brand-title">Светлана Глазова</div>
+          <div class="brand-subtitle">AI creator / vibe-coder</div>
+        </div>
+      </a>
+      <button class="menu-btn" data-menu-btn>Меню</button>
+      <nav class="nav" data-nav>
+        <a href="index.html">Главная</a>
+        <a href="services.html">Услуги</a>
+        <a href="calculator.html">Калькулятор</a>
+        <a href="portfolio.html">Портфолио</a>
+        <a href="about.html">Обо мне</a>
+        <a href="contacts.html">Контакты</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="section calculator-page">
+    <div class="container">
+      <span class="label">Предварительный расчёт</span>
+      <h1 class="section-title" style="margin-top:12px;">Калькулятор услуг</h1>
+      <p class="section-subtitle">
+        Соберите предварительную смету с учётом количества, сложности и срочности.
+        Запрос на услуги не является оформленным заказом — окончательная стоимость определяется после согласования проекта.
+      </p>
+      <iframe
+        id="calculatorFrame"
+        class="calculator-embed-frame"
+        title="Калькулятор услуг"
+        src="public/Калькулятор.html?embed=1#calculator"
+      ></iframe>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="contact-actions cta-row">
+        <a class="btn btn-primary" href="https://t.me/Sveg77" target="_blank" rel="noopener noreferrer">Telegram</a>
+        <a class="btn btn-primary" href="https://wa.me/79605166925" target="_blank" rel="noopener noreferrer">WA</a>
+        <a class="btn btn-primary" href="mailto:sveg77@mail.ru">Email</a>
+      </div>
+      <div>© <span data-year></span> Светлана Глазова. <a class="muted-link" href="privacy-policy.html">Политика конфиденциальности</a></div>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+  <script>
+    (function () {
+      var frame = document.getElementById("calculatorFrame");
+      if (!frame) return;
+
+      window.addEventListener("message", function (event) {
+        if (!event.data || event.data.type !== "calc-embed-height") return;
+        frame.style.height = Math.max(800, Number(event.data.height) || 0) + "px";
+      });
+    })();
+  </script>
+</body>
+</html>

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
@@ -704,9 +704,37 @@
         align-items: flex-start;
       }
     }
+
+    html.embed-mode .landing {
+      display: none;
+    }
+
+    html.embed-mode body {
+      padding: 8px 8px 24px;
+      background: transparent;
+    }
+
+    html.embed-mode .calculator-wrapper {
+      max-width: none;
+      margin: 0;
+    }
   </style>
 </head>
 <body>
+  <script>
+    (function () {
+      var params = new URLSearchParams(location.search);
+      var embed = params.get("embed") === "1" || window.self !== window.top;
+      if (embed) {
+        document.documentElement.classList.add("embed-mode");
+        return;
+      }
+      if (window.self === window.top) {
+        location.replace("calculator.html");
+      }
+    })();
+  </script>
+
   <!-- Кнопка переключения темы: фиксированно в правом верхнем углу -->
   <button type="button" id="themeToggleBtn" class="theme-toggle" aria-label="Переключить тему">
     🌙 Тёмная тема
@@ -722,7 +750,7 @@
     <h1 data-i18n="landing.title">Специалист по нейросетям для бизнеса</h1>
     <p class="landing-subtitle" data-i18n="landing.subtitle">
       Помогаю внедрять ИИ в маркетинг, контент и продажи: от консультаций до готовых воронок,
-      GPT-ассистентов и полного ведения соцсетей. Ниже можно сразу посчитать стоимость проекта.
+      GPT-ассистентов и полного ведения соцсетей. Ниже можно сразу посчитать предварительную стоимость проекта.
     </p>
 
     <div class="landing-grid">
@@ -731,8 +759,8 @@
         <span data-i18n="landing.card1Text">Первая консультация до 15 минут бесплатно, чтобы определить формат работы.</span>
       </div>
       <div class="landing-card">
-        <strong data-i18n="landing.card2Title">Прозрачная стоимость</strong>
-        <span data-i18n="landing.card2Text">Калькулятор считает услуги, коэффициенты сложности и скидки в реальном времени.</span>
+        <strong data-i18n="landing.card2Title">Предварительный расчёт</strong>
+        <span data-i18n="landing.card2Text">Калькулятор считает предварительную стоимость услуг, коэффициенты сложности и скидки в реальном времени.</span>
       </div>
       <div class="landing-card">
         <strong data-i18n="landing.card3Title">Результат под нишу</strong>
@@ -742,7 +770,7 @@
 
     <div class="landing-cta">
       <a class="landing-button" href="#calculator" data-i18n="landing.cta">Перейти к калькулятору</a>
-      <span class="landing-cta-note" data-i18n="landing.ctaNote">Нажмите кнопку, чтобы перейти к расчёту проекта</span>
+      <span class="landing-cta-note" data-i18n="landing.ctaNote">Нажмите кнопку, чтобы перейти к предварительному расчёту проекта</span>
     </div>
   </section>
 
@@ -751,6 +779,11 @@
     <div class="calculator-card">
       <div class="calculator-header">
         <h1 data-i18n="calc.title">Калькулятор услуг специалиста по нейросетям</h1>
+        <p class="calculator-disclaimer">
+          Запрос на услуги не является оформленным заказом. Все расчёты в калькуляторе — предварительные.
+          Окончательная стоимость проекта определяется только после оформления проекта: в процессе работы
+          могут понадобиться дополнительные инструменты, время и услуги.
+        </p>
         <!-- Текст с выделением: подставляется из словаря переводов (innerHTML) -->
         <p id="calcIntro" data-i18n-html="calc.introHtml"></p>
       </div>
@@ -882,7 +915,7 @@
               </select>
 
               <div class="helper-text" data-i18n="helper.pickService">
-                Выбери услугу, укажи количество и нажми кнопку «Добавить услугу в расчёт».
+                Выбери услугу, укажи количество и нажми кнопку «Добавить услугу в предварительный расчёт».
               </div>
 
               <div class="service-meta">
@@ -906,7 +939,7 @@
             </div>
 
             <button type="button" class="btn-add" id="addServiceBtn" data-i18n="btn.addService">
-              Добавить услугу в расчёт
+              Добавить услугу в предварительный расчёт
             </button>
 
             <div class="selected-services" id="selectedServicesContainer">
@@ -1014,8 +1047,13 @@
 
         <div class="right-column">
           <div class="result-box">
-            <h2 data-i18n="result.title">Итоговый расчёт</h2>
+            <h2 data-i18n="result.title">Предварительный итоговый расчёт</h2>
             <div class="price-main" id="totalPrice">0 ₽</div>
+
+            <div class="result-note result-note--legal">
+              Сумма предварительная. Заявка в CRM не является оформленным заказом. Окончательная стоимость
+              согласуется после оформления проекта.
+            </div>
 
             <div class="result-note" id="resultNote" data-i18n="result.noteDefault">
               Автоматическая скидка 10% применяется, если сумма услуг после коэффициентов вместе с доп. опциями превышает 20 000 ₽.
@@ -1097,7 +1135,28 @@
   </div>
 
   <!-- Внешние скрипты: словари RU/EN и логика калькулятора -->
-  <script src="assets/js/i18n.js"></script>
-  <script src="assets/js/calculator.js"></script>
+  <script src="public/assets/js/i18n.js"></script>
+  <script src="public/assets/js/calculator.js"></script>
+  <script>
+    (function () {
+      if (!document.documentElement.classList.contains("embed-mode")) return;
+
+      function postHeight() {
+        var height = Math.max(
+          document.body.scrollHeight,
+          document.documentElement.scrollHeight
+        );
+        if (window.parent && window.parent !== window) {
+          window.parent.postMessage({ type: "calc-embed-height", height: height }, "*");
+        }
+      }
+
+      window.addEventListener("load", postHeight);
+      window.addEventListener("resize", postHeight);
+      if (typeof ResizeObserver !== "undefined") {
+        new ResizeObserver(postHeight).observe(document.body);
+      }
+    })();
+  </script>
 </body>
 </html>
