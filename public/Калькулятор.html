@@ -9,6 +9,10 @@
       box-sizing: border-box;
     }
 
+    :root {
+      --calc-text-cream: #f6f3ecdb;
+    }
+
     body {
       margin: 0;
       padding: 24px;
@@ -121,7 +125,7 @@
       font-size: 15px;
       font-weight: bold;
       background: #1D4241;
-      color: #ffffff;
+      color: var(--calc-text-cream);
     }
 
     .landing-button:hover {
@@ -148,7 +152,7 @@
 
     .calculator-header {
       padding: 32px 28px;
-      color: #ffffff;
+      color: var(--calc-text-cream);
       background: #1D4241;
     }
 
@@ -229,23 +233,25 @@
     select,
     input[type="number"],
     input[type="text"],
+    input[type="tel"],
     textarea {
       width: 100%;
       padding: 13px 14px;
-      border: 1px solid #cbd5e1;
+      border: 1px solid rgba(29, 66, 65, 0.16);
       border-radius: 12px;
       font-size: 15px;
       outline: none;
       transition: 0.2s ease;
-      background: #fff;
-      color: #111827;
+      background: rgba(29, 66, 65, 0.08);
+      color: #1d4241;
     }
 
     select:focus,
     input[type="number"]:focus,
     input[type="text"]:focus,
+    input[type="tel"]:focus,
     textarea:focus {
-      border-color: #1D4241;
+      border-color: #1d4241;
       box-shadow: 0 0 0 3px rgba(29, 66, 65, 0.14);
     }
 
@@ -271,20 +277,21 @@
     .meta-card {
       padding: 12px 14px;
       border-radius: 12px;
-      background: #eef6f5;
-      border: 1px solid #cfe1de;
+      background: rgba(29, 66, 65, 0.08);
+      border: 1px solid rgba(29, 66, 65, 0.16);
     }
 
     .meta-card-title {
       font-size: 12px;
-      color: #4b5563;
+      color: rgba(29, 66, 65, 0.78);
       margin-bottom: 4px;
+      font-weight: 600;
     }
 
     .meta-card-value {
       font-size: 14px;
       font-weight: bold;
-      color: #1D4241;
+      color: #1d4241;
       line-height: 1.4;
     }
 
@@ -393,8 +400,8 @@
       align-items: flex-start;
       gap: 10px;
       padding: 12px;
-      border: 1px solid #d5e5e3;
-      background: #ffffff;
+      border: 1px solid rgba(29, 66, 65, 0.16);
+      background: rgba(29, 66, 65, 0.08);
       border-radius: 12px;
     }
 
@@ -417,8 +424,9 @@
       top: 20px;
       padding: 22px;
       border-radius: 18px;
-      background: #111827;
-      color: #ffffff;
+      background: #1d4241;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: var(--calc-text-cream);
     }
 
     .result-box h2 {
@@ -440,14 +448,14 @@
       border-radius: 12px;
       font-size: 13px;
       line-height: 1.55;
-      color: #e5e7eb;
+      color: var(--calc-text-cream);
       border: 1px solid rgba(148, 163, 184, 0.12);
     }
 
     .result-note.result-note--discount-on {
       background: rgba(134, 239, 172, 0.12);
       border-color: rgba(134, 239, 172, 0.35);
-      color: #ecfdf5;
+      color: var(--calc-text-cream);
     }
 
     .breakdown {
@@ -466,6 +474,7 @@
       border-bottom: 1px solid rgba(255,255,255,0.08);
       font-size: 14px;
       align-items: center;
+      color: var(--calc-text-cream);
     }
 
     .breakdown-row:last-child {
@@ -473,12 +482,16 @@
     }
 
     .breakdown-row strong {
-      color: #ffffff;
+      color: var(--calc-text-cream);
       text-align: right;
     }
 
     .discount-auto-row strong {
-      color: #86efac;
+      color: var(--calc-text-cream);
+    }
+
+    .discount-extra-row strong {
+      color: var(--calc-text-cream);
     }
 
     .order-preview-card {
@@ -486,25 +499,26 @@
       margin-bottom: 4px;
       padding: 16px 16px 14px;
       border-radius: 14px;
-      background: rgba(15, 23, 42, 0.85);
-      border: 1px solid rgba(148, 163, 184, 0.22);
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.16);
     }
 
     .order-preview-title {
       margin: 0 0 12px;
       font-size: 15px;
       font-weight: 700;
-      color: #f8fafc;
+      color: var(--calc-text-cream);
     }
 
     .order-preview-list {
       font-size: 14px;
       line-height: 1.55;
-      color: #e2e8f0;
+      color: var(--calc-text-cream);
     }
 
     .order-preview-list--empty {
-      color: #94a3b8;
+      color: var(--calc-text-cream);
+      opacity: 0.82;
       font-weight: 400;
     }
 
@@ -521,14 +535,14 @@
     }
 
     .order-preview-item-line {
-      color: #e2e8f0;
+      color: var(--calc-text-cream);
     }
 
     .order-preview-item-sum {
       margin-top: 6px;
       font-size: 15px;
       font-weight: 700;
-      color: #ffffff;
+      color: var(--calc-text-cream);
     }
 
     .order-preview-subtotal {
@@ -537,14 +551,14 @@
       border-top: 1px solid rgba(148, 163, 184, 0.25);
       font-size: 15px;
       font-weight: 700;
-      color: #f8fafc;
+      color: var(--calc-text-cream);
     }
 
     .order-preview-discount-notice {
       margin-top: 10px;
       font-size: 14px;
       font-weight: 700;
-      color: #86efac;
+      color: var(--calc-text-cream);
     }
 
     .btn-row {
@@ -566,11 +580,24 @@
 
     .btn-primary {
       background: #1D4241;
-      color: #ffffff;
+      color: var(--calc-text-cream);
     }
 
     .btn-primary:hover {
       background: #163433;
+    }
+
+    .result-box #copySummaryBtn,
+    .result-box #sendToCrmBtn {
+      background: #0f2424;
+      color: var(--calc-text-cream);
+      border: 1px solid rgba(246, 243, 236, 0.2);
+    }
+
+    .result-box #copySummaryBtn:hover,
+    .result-box #sendToCrmBtn:hover {
+      background: #163433;
+      border-color: rgba(246, 243, 236, 0.35);
     }
 
     .btn-secondary {
@@ -590,14 +617,14 @@
       border: 1px solid rgba(148, 163, 184, 0.15);
       font-size: 13px;
       line-height: 1.6;
-      color: #cbd5e1;
+      color: var(--calc-text-cream);
     }
 
     .summary-box .summary-request-title {
       margin: 0 0 14px;
       font-size: 15px;
       font-weight: 700;
-      color: #f1f5f9;
+      color: var(--calc-text-cream);
       line-height: 1.35;
     }
 
@@ -605,7 +632,7 @@
       margin: 0 0 8px;
       font-size: 13px;
       line-height: 1.55;
-      color: #cbd5e1;
+      color: var(--calc-text-cream);
     }
 
     .summary-box .summary-block-gap {
@@ -623,15 +650,15 @@
       margin: 0;
       font-size: 15px;
       font-weight: 700;
-      color: #ffffff;
+      color: var(--calc-text-cream);
     }
 
     .empty-state {
       padding: 14px;
       border-radius: 12px;
-      background: #ffffff;
-      border: 1px dashed #cbd5e1;
-      color: #64748b;
+      background: rgba(29, 66, 65, 0.08);
+      border: 1px solid rgba(29, 66, 65, 0.16);
+      color: rgba(29, 66, 65, 0.78);
       font-size: 14px;
       line-height: 1.5;
     }
@@ -641,6 +668,11 @@
       font-size: 12px;
       color: #6b7280;
       line-height: 1.5;
+    }
+
+    .result-box .footer-note {
+      color: var(--calc-text-cream);
+      opacity: 0.88;
     }
 
     body,
@@ -664,7 +696,7 @@
 
     body.dark-theme {
       background: linear-gradient(180deg, #0b1220 0%, #111827 100%);
-      color: #e5e7eb;
+      color: var(--calc-text-cream);
     }
 
     body.dark-theme .calculator-card {
@@ -678,28 +710,30 @@
     body.dark-theme .empty-state {
       background: #1f2937;
       border-color: #374151;
-      color: #e5e7eb;
+      color: var(--calc-text-cream);
     }
 
     body.dark-theme .section h2,
     body.dark-theme .service-item-title,
     body.dark-theme .field label,
     body.dark-theme .checkbox-item label {
-      color: #f9fafb;
+      color: var(--calc-text-cream);
     }
 
     body.dark-theme .helper-text,
     body.dark-theme .service-item-subtitle,
     body.dark-theme .footer-note {
-      color: #9ca3af;
+      color: var(--calc-text-cream);
+      opacity: 0.88;
     }
 
     body.dark-theme select,
     body.dark-theme input[type="number"],
     body.dark-theme input[type="text"],
+    body.dark-theme input[type="tel"],
     body.dark-theme textarea {
       background: #111827;
-      color: #f3f4f6;
+      color: var(--calc-text-cream);
       border-color: #4b5563;
     }
 
@@ -710,12 +744,13 @@
     }
 
     body.dark-theme .meta-card-title {
-      color: #9ca3af;
+      color: var(--calc-text-cream);
+      opacity: 0.88;
     }
 
     body.dark-theme .meta-card-value,
     body.dark-theme .service-item-total strong {
-      color: #a7f3d0;
+      color: var(--calc-text-cream);
     }
 
     body.dark-theme .btn-secondary {
@@ -731,14 +766,19 @@
       background: rgba(255, 255, 255, 0.05);
     }
 
+    body.dark-theme .result-box {
+      background: #1d4241;
+      border-color: rgba(255, 255, 255, 0.12);
+    }
+
     body.dark-theme .order-preview-card {
-      background: #020617;
-      border-color: rgba(148, 163, 184, 0.2);
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.16);
     }
 
     body.dark-theme .theme-toggle {
       background: #1f2937;
-      color: #f9fafb;
+      color: var(--calc-text-cream);
       border-color: #4b5563;
       box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
     }
@@ -749,7 +789,7 @@
 
     body.dark-theme .lang-toggle {
       background: #1f2937;
-      color: #f9fafb;
+      color: var(--calc-text-cream);
       border-color: #4b5563;
       box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
     }
@@ -765,25 +805,27 @@
     }
 
     body.dark-theme .landing h1 {
-      color: #f8fafc;
+      color: var(--calc-text-cream);
     }
 
     body.dark-theme .landing-subtitle {
-      color: #cbd5e1;
+      color: var(--calc-text-cream);
+      opacity: 0.9;
     }
 
     body.dark-theme .landing-card {
       background: #0f172a;
       border-color: #334155;
-      color: #dbeafe;
+      color: var(--calc-text-cream);
     }
 
     body.dark-theme .landing-card strong {
-      color: #f8fafc;
+      color: var(--calc-text-cream);
     }
 
     body.dark-theme .landing-cta-note {
-      color: #94a3b8;
+      color: var(--calc-text-cream);
+      opacity: 0.82;
     }
 
     @media (max-width: 960px) {
@@ -839,6 +881,79 @@
       max-width: none;
       margin: 0;
     }
+
+    html.embed-mode .calculator-header {
+      display: none;
+    }
+
+    html.embed-mode .calculator-card {
+      background: #f6f3ecdb;
+      color: #1d4241;
+      border: 1px solid rgba(29, 66, 65, 0.12);
+      box-shadow: none;
+      overflow: visible;
+    }
+
+    html.embed-mode .calculator-body {
+      color: #1d4241;
+    }
+
+    html.embed-mode .section {
+      background: rgba(255, 255, 255, 0.4);
+      border-color: rgba(29, 66, 65, 0.14);
+      color: #1d4241;
+    }
+
+    html.embed-mode .service-item {
+      color: #1d4241;
+    }
+
+    html.embed-mode .checkbox-item {
+      background: rgba(29, 66, 65, 0.08);
+      border-color: rgba(29, 66, 65, 0.16);
+      color: #1d4241;
+    }
+
+    html.embed-mode .meta-card {
+      background: rgba(29, 66, 65, 0.08);
+      border-color: rgba(29, 66, 65, 0.16);
+      color: #1d4241;
+    }
+
+    html.embed-mode .left-column,
+    html.embed-mode .left-column .section h2,
+    html.embed-mode .left-column .field label,
+    html.embed-mode .left-column .helper-text,
+    html.embed-mode .left-column .service-item-title,
+    html.embed-mode .left-column .service-item-subtitle,
+    html.embed-mode .left-column .meta-card-title,
+    html.embed-mode .left-column .meta-card-value,
+    html.embed-mode .left-column .checkbox-item label,
+    html.embed-mode .left-column .empty-state,
+    html.embed-mode .left-column .service-item-total,
+    html.embed-mode .left-column .service-item-total strong,
+    html.embed-mode .left-column select,
+    html.embed-mode .left-column input[type="number"],
+    html.embed-mode .left-column input[type="text"],
+    html.embed-mode .left-column input[type="tel"],
+    html.embed-mode .left-column textarea,
+    html.embed-mode .left-column option {
+      color: #1d4241;
+    }
+
+    html.embed-mode .left-column select,
+    html.embed-mode .left-column input[type="number"],
+    html.embed-mode .left-column input[type="text"],
+    html.embed-mode .left-column input[type="tel"],
+    html.embed-mode .left-column textarea,
+    html.embed-mode .left-column .empty-state {
+      background: rgba(29, 66, 65, 0.08);
+      border-color: rgba(29, 66, 65, 0.16);
+    }
+
+    html.embed-mode body {
+      overflow: visible;
+    }
   </style>
 </head>
 <body>
@@ -862,16 +977,6 @@
       }
     })();
   </script>
-
-  <!-- Кнопка переключения темы: фиксированно в правом верхнем углу -->
-  <button type="button" id="themeToggleBtn" class="theme-toggle" aria-label="Переключить тему">
-    🌙 Тёмная тема
-  </button>
-
-  <!-- Кнопка переключения языка (RU / EN): фиксированно в правом нижнем углу -->
-  <button type="button" id="langToggleBtn" class="lang-toggle" aria-label="Switch language">
-    EN
-  </button>
 
   <!-- Приветственный лендинг: короткое описание специалиста и быстрый вход в калькулятор -->
   <section class="landing">
@@ -908,16 +1013,11 @@
       <div class="calculator-header">
         <h1 data-i18n="calc.title">Калькулятор услуг специалиста по нейросетям</h1>
         <p class="calculator-subtitle" data-i18n="calc.subtitle">
-          Версия с выбором нескольких основных услуг и автоматической скидкой: если сумма основных услуг после
-          коэффициентов + доп. опции превышает 20&nbsp;000&nbsp;₽, применяется скидка 10%. Все суммы в калькуляторе —
-          предварительные.
+          Соберите предварительную смету с учётом количества, сложности и срочности.
         </p>
         <p class="calculator-disclaimer">
-          Запрос на услуги не является оформленным заказом. Окончательная стоимость проекта определяется только после
-          оформления проекта: в процессе работы могут понадобиться дополнительные инструменты, время и услуги.
+          Запрос на услуги не является оформленным заказом. Окончательная стоимость определяется только после оформления проекта: в процессе работы могут понадобиться дополнительные инструменты, время и услуги.
         </p>
-        <!-- Текст с выделением: подставляется из словаря переводов (innerHTML) -->
-        <p id="calcIntro" data-i18n-html="calc.introHtml"></p>
       </div>
 
       <div class="calculator-body">
@@ -1068,16 +1168,6 @@
                 Выбери услугу, укажи количество и нажми кнопку «Добавить услугу в предварительный расчёт».
               </div>
 
-              <div class="service-meta">
-                <div class="meta-card">
-                  <div class="meta-card-title" data-i18n="meta.priceFormat">Формат цены</div>
-                  <div class="meta-card-value" id="serviceUnitNote">Фиксированная цена</div>
-                </div>
-                <div class="meta-card">
-                  <div class="meta-card-title" data-i18n="meta.tariffType">Тип тарифа</div>
-                  <div class="meta-card-value" id="serviceFromNote">Фиксированная стоимость</div>
-                </div>
-              </div>
             </div>
 
             <div class="field">
@@ -1159,7 +1249,7 @@
           </div>
 
           <div class="section">
-            <h2 data-i18n="section4.title">4. Доработки и ручная скидка</h2>
+            <h2 data-i18n="section4.title">4. Доработки</h2>
 
             <div class="field">
               <label for="extraHours" data-i18n="label.extraHours">Дополнительные часы работ</label>
@@ -1171,12 +1261,8 @@
               <input type="number" id="hourRate" min="0" step="100" value="2500" />
             </div>
 
-            <div class="field">
-              <label for="discount" data-i18n="label.discount">Дополнительная ручная скидка (%)</label>
-              <input type="number" id="discount" min="0" max="100" step="1" value="0" />
-              <div class="helper-text" data-i18n="helper.manualDiscount">
-                Эта скидка применяется отдельно после автоматической скидки 10%, если она сработала.
-              </div>
+            <div class="helper-text" data-i18n="helper.extraDiscount">
+              Дополнительная скидка 5% применяется автоматически, если сумма проекта превышает 200&nbsp;000&nbsp;₽. Скидки суммируются.
             </div>
           </div>
 
@@ -1205,13 +1291,8 @@
             <h2 data-i18n="result.title">Предварительный итоговый расчёт</h2>
             <div class="price-main" id="totalPrice">0 ₽</div>
 
-            <div class="result-note result-note--legal">
-              Сумма предварительная. Заявка в CRM не является оформленным заказом. Окончательная стоимость
-              согласуется после оформления проекта.
-            </div>
-
             <div class="result-note" id="resultNote" data-i18n="result.noteDefault">
-              Автоматическая скидка 10% применяется, если сумма услуг после коэффициентов вместе с доп. опциями превышает 20 000 ₽.
+              Автоматическая скидка 10% применяется, если сумма услуг после коэффициентов вместе с доп. опциями превышает 20 000 ₽. Дополнительная скидка 5% суммируется с ней, если сумма проекта превышает 200 000 ₽.
             </div>
 
             <div class="breakdown">
@@ -1260,8 +1341,8 @@
                 <strong id="extraHoursLabel">0 ₽</strong>
               </div>
 
-              <div class="breakdown-row">
-                <span data-i18n="breakdown.manual">Ручная скидка</span>
+              <div class="breakdown-row discount-extra-row">
+                <span data-i18n="breakdown.extraDiscount">Дополнительная скидка 5%</span>
                 <strong id="discountLabel">− 0 ₽</strong>
               </div>
             </div>
@@ -1289,10 +1370,6 @@
             <div class="summary-box" id="summaryBox" data-i18n="summary.placeholder"></div>
           </div>
 
-          <div class="footer-note" data-i18n="footer.note">
-            Подходит для Tilda, HTML-блоков, лендингов, Taplink и любых онлайн-конструкторов,
-            где можно вставить HTML + CSS + JS.
-          </div>
         </div>
       </div>
     </div>
@@ -1306,20 +1383,52 @@
     (function () {
       if (!document.documentElement.classList.contains("embed-mode")) return;
 
-      function postHeight() {
-        var height = Math.max(
-          document.body.scrollHeight,
-          document.documentElement.scrollHeight
-        );
-        if (window.parent && window.parent !== window) {
-          window.parent.postMessage({ type: "calc-embed-height", height: height }, "*");
+      function measureEmbedHeight() {
+        var root = document.getElementById("calculator") || document.querySelector(".calculator-wrapper");
+        var body = document.body;
+        var bodyStyle = window.getComputedStyle(body);
+        var padBottom = parseFloat(bodyStyle.paddingBottom) || 0;
+        var padTop = parseFloat(bodyStyle.paddingTop) || 0;
+
+        if (root) {
+          return Math.ceil(root.offsetTop + root.offsetHeight + padBottom);
         }
+
+        return Math.ceil(
+          Math.max(body.scrollHeight, document.documentElement.scrollHeight) + padTop + padBottom
+        );
       }
 
-      window.addEventListener("load", postHeight);
-      window.addEventListener("resize", postHeight);
+      function postHeight() {
+        if (!window.parent || window.parent === window) return;
+        window.parent.postMessage(
+          { type: "calc-embed-height", height: measureEmbedHeight() },
+          "*"
+        );
+      }
+
+      function schedulePostHeight() {
+        requestAnimationFrame(function () {
+          requestAnimationFrame(postHeight);
+        });
+      }
+
+      window.__postCalcEmbedHeight = schedulePostHeight;
+
+      window.addEventListener("load", schedulePostHeight);
+      window.addEventListener("resize", schedulePostHeight);
+
       if (typeof ResizeObserver !== "undefined") {
-        new ResizeObserver(postHeight).observe(document.body);
+        var ro = new ResizeObserver(schedulePostHeight);
+        var root = document.getElementById("calculator") || document.querySelector(".calculator-wrapper");
+        if (root) ro.observe(root);
+        ro.observe(document.body);
+        var services = document.getElementById("selectedServicesContainer");
+        var preview = document.getElementById("orderPreviewCard");
+        var summary = document.getElementById("summaryBox");
+        if (services) ro.observe(services);
+        if (preview) ro.observe(preview);
+        if (summary) ro.observe(summary);
       }
     })();
   </script>

@@ -3,6 +3,8 @@
 
   const AUTO_THRESHOLD = 20000;
   const AUTO_RATE = 0.1;
+  const EXTRA_THRESHOLD = 200000;
+  const EXTRA_RATE = 0.05;
 
   function money(n) {
     return `${Math.round(n).toLocaleString("ru-RU")} ₽`;
@@ -65,14 +67,9 @@
 
   function updateServiceMeta() {
     const opt = getOption();
-    const note = $("serviceUnitNote");
-    const from = $("serviceFromNote");
     const qtyLabel = $("serviceQuantityLabel");
     const qtyHelp = $("serviceQuantityHelp");
-    if (!opt || !note || !from) return;
-
-    note.textContent = opt.dataset.unitNote || "—";
-    from.textContent = opt.dataset.isFrom === "true" ? "От … (минимум)" : "Фиксированная стоимость";
+    if (!opt) return;
 
     const unit = opt.dataset.unitType || "fixed";
     if (qtyLabel) {
@@ -123,9 +120,11 @@
         recalc();
       });
     });
+
+    notifyEmbedResize();
   }
 
-  function renderOrderPreview(servicesRaw, autoDisc) {
+  function renderOrderPreview(servicesRaw, autoDisc, extraDisc) {
     const listEl = $("orderServicesList");
     const subEl = $("orderPreviewSubtotal");
     const discEl = $("orderPreviewDiscountNotice");
@@ -157,7 +156,16 @@
 
     subEl.hidden = false;
     subEl.textContent = "Итого по услугам до коэффициентов: " + money(servicesRaw);
-    discEl.hidden = autoDisc <= 0;
+
+    const notices = [];
+    if (autoDisc > 0) notices.push("Автоматическая скидка 10% применена");
+    if (extraDisc > 0) notices.push("Дополнительная скидка 5% применена");
+    if (notices.length) {
+      discEl.hidden = false;
+      discEl.textContent = notices.join(". ") + ".";
+    } else {
+      discEl.hidden = true;
+    }
   }
 
   function optionsSum() {
@@ -209,8 +217,8 @@
       extraH,
       rate,
       extraCost,
-      discPct,
-      manualDisc,
+      beforeExtraDisc,
+      extraDisc,
       total
     } = ctx;
 
@@ -253,9 +261,9 @@
     plain.push(`Доп. часы: ${extraH}`);
     plain.push(`Ставка за час доработок: ${money(rate)}`);
     plain.push(`Стоимость доработок: ${money(extraCost)}`);
-    plain.push("");
-    plain.push(`Ручная скидка: ${discPct}%`);
-    plain.push(`Размер ручной скидки: ${money(manualDisc)}`);
+    plain.push(`Сумма перед дополнительной скидкой: ${money(beforeExtraDisc)}`);
+    plain.push(`Дополнительная скидка 5%: ${extraDisc > 0 ? "применена" : "не применена"}`);
+    plain.push(`Размер дополнительной скидки: ${money(extraDisc)}`);
     plain.push("");
     plain.push(`Комментарий: ${commentRaw ? commentRaw : "не указан"}`);
     plain.push("");
@@ -263,7 +271,7 @@
     plain.push(`Предварительная итоговая стоимость: ${money(total)}`);
     plain.push("");
     plain.push(
-      "Запрос на услуги не является оформленным заказом. Расчёт предварительный. Окончательная стоимость определяется после оформления проекта."
+      "Запрос на услуги не является оформленным заказом. Окончательная стоимость определяется только после оформления проекта: в процессе работы могут понадобиться дополнительные инструменты, время и услуги."
     );
 
     lastPlainSummary = plain.join("\n");
@@ -305,20 +313,26 @@
     html.push(p(`Доп. часы: ${extraH}`));
     html.push(p(`Ставка за час доработок: ${money(rate)}`));
     html.push(p(`Стоимость доработок: ${money(extraCost)}`));
-    html.push(gap());
-    html.push(p(`Ручная скидка: ${discPct}%`));
-    html.push(p(`Размер ручной скидки: ${money(manualDisc)}`));
+    html.push(p(`Сумма перед дополнительной скидкой: ${money(beforeExtraDisc)}`));
+    html.push(p(`Дополнительная скидка 5%: ${extraDisc > 0 ? "применена" : "не применена"}`));
+    html.push(p(`Размер дополнительной скидки: ${money(extraDisc)}`));
     html.push(gap());
     html.push(p(`Комментарий: ${commentRaw ? commentRaw : "не указан"}`));
     html.push('<div class="summary-total-rule" aria-hidden="true"></div>');
     html.push(`<p class="summary-total-line">Предварительная итоговая стоимость: ${escapeHtml(money(total))}</p>`);
     html.push(
       p(
-        "Запрос на услуги не является оформленным заказом. Расчёт предварительный. Окончательная стоимость определяется после оформления проекта."
+        "Запрос на услуги не является оформленным заказом. Окончательная стоимость определяется только после оформления проекта: в процессе работы могут понадобиться дополнительные инструменты, время и услуги."
       )
     );
 
     summary.innerHTML = html.join("");
+  }
+
+  function notifyEmbedResize() {
+    if (typeof window.__postCalcEmbedHeight === "function") {
+      window.__postCalcEmbedHeight();
+    }
   }
 
   function recalc() {
@@ -334,10 +348,10 @@
     const extraH = Math.max(0, parseFloat($("extraHours")?.value || "0") || 0);
     const rate = Math.max(0, parseFloat($("hourRate")?.value || "0") || 0);
     const extraCost = extraH * rate;
-    const discPct = Math.min(100, Math.max(0, parseFloat($("discount")?.value || "0") || 0));
-    const beforeManual = afterAuto + extraCost;
-    const manualDisc = beforeManual * (discPct / 100);
-    const total = beforeManual - manualDisc;
+    const beforeExtraDisc = afterAuto + extraCost;
+    let extraDisc = 0;
+    if (beforeExtraDisc > EXTRA_THRESHOLD) extraDisc = beforeExtraDisc * EXTRA_RATE;
+    const total = beforeExtraDisc - extraDisc;
 
     const set = (id, v) => {
       const el = $(id);
@@ -359,19 +373,28 @@
     set("afterAutoDiscountLabel", afterAuto);
     set("extraHoursLabel", extraCost);
 
-    const manualDiscEl = $("discountLabel");
-    if (manualDiscEl) manualDiscEl.textContent = moneyMinus(manualDisc);
+    const extraDiscEl = $("discountLabel");
+    if (extraDiscEl) extraDiscEl.textContent = moneyMinus(extraDisc);
 
     const resultNote = $("resultNote");
     if (resultNote) {
-      if (autoDisc > 0) {
-        resultNote.classList.add("result-note--discount-on");
+      const hasAuto = autoDisc > 0;
+      const hasExtra = extraDisc > 0;
+      if (hasAuto || hasExtra) resultNote.classList.add("result-note--discount-on");
+      else resultNote.classList.remove("result-note--discount-on");
+
+      if (hasAuto && hasExtra) {
+        resultNote.textContent =
+          "Применены автоматическая скидка 10% (сумма > 20 000 ₽) и дополнительная скидка 5% (сумма > 200 000 ₽). Скидки суммируются.";
+      } else if (hasAuto) {
         resultNote.textContent =
           "Автоматическая скидка 10% применена, так как сумма услуг с учётом доп. опций превышает 20 000 ₽.";
-      } else {
-        resultNote.classList.remove("result-note--discount-on");
+      } else if (hasExtra) {
         resultNote.textContent =
-          "Автоматическая скидка 10% применяется, если сумма услуг после коэффициентов вместе с доп. опциями превышает 20 000 ₽.";
+          "Дополнительная скидка 5% применена, так как сумма проекта превышает 200 000 ₽.";
+      } else {
+        resultNote.textContent =
+          "Автоматическая скидка 10% применяется, если сумма услуг после коэффициентов вместе с доп. опциями превышает 20 000 ₽. Дополнительная скидка 5% суммируется с ней, если сумма проекта превышает 200 000 ₽.";
       }
     }
 
@@ -381,7 +404,7 @@
       tp.dataset.lastTotal = String(Math.round(total));
     }
 
-    renderOrderPreview(servicesRaw, autoDisc);
+    renderOrderPreview(servicesRaw, autoDisc, extraDisc);
 
     renderApplicationSummary({
       servicesRaw,
@@ -393,8 +416,8 @@
       extraH,
       rate,
       extraCost,
-      discPct,
-      manualDisc,
+      beforeExtraDisc,
+      extraDisc,
       total
     });
   }
@@ -466,7 +489,7 @@
       el.addEventListener("change", recalc);
     }
 
-    ["complexity", "urgency", "extraHours", "hourRate", "discount", "serviceQuantity"].forEach(bindRecalc);
+    ["complexity", "urgency", "extraHours", "hourRate", "serviceQuantity"].forEach(bindRecalc);
 
     document.querySelectorAll(".checkbox-item input").forEach((cb) => {
       cb.addEventListener("change", recalc);

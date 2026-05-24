@@ -7,7 +7,7 @@
   <meta name="description" content="Предварительный расчёт стоимости услуг: услуги, сложность, срочность и скидки.">
   <link rel="stylesheet" href="styles.css">
 </head>
-<body>
+<body class="page-calculator">
   <header class="site-header">
     <div class="container header-row">
       <a class="logo-wrap" href="index.html">
@@ -35,12 +35,15 @@
       <h1 class="section-title" style="margin-top:12px;">Калькулятор услуг</h1>
       <p class="section-subtitle">
         Соберите предварительную смету с учётом количества, сложности и срочности.
-        Запрос на услуги не является оформленным заказом — окончательная стоимость определяется после согласования проекта.
+      </p>
+      <p class="section-subtitle calculator-page-note">
+        Запрос на услуги не является оформленным заказом. Окончательная стоимость определяется только после оформления проекта: в процессе работы могут понадобиться дополнительные инструменты, время и услуги.
       </p>
       <iframe
         id="calculatorFrame"
         class="calculator-embed-frame"
         title="Калькулятор услуг"
+        scrolling="no"
         src="public/Калькулятор.html?embed=1#calculator"
       ></iframe>
     </div>
@@ -63,9 +66,24 @@
       var frame = document.getElementById("calculatorFrame");
       if (!frame) return;
 
+      function setFrameHeight(h) {
+        var height = Math.ceil(Number(h) || 0);
+        if (height < 1) return;
+        frame.style.height = height + "px";
+      }
+
       window.addEventListener("message", function (event) {
         if (!event.data || event.data.type !== "calc-embed-height") return;
-        frame.style.height = Math.max(800, Number(event.data.height) || 0) + "px";
+        setFrameHeight(event.data.height);
+      });
+
+      frame.addEventListener("load", function () {
+        try {
+          var doc = frame.contentDocument;
+          if (doc && typeof frame.contentWindow.__postCalcEmbedHeight === "function") {
+            frame.contentWindow.__postCalcEmbedHeight();
+          }
+        } catch (_) {}
       });
     })();
   </script>

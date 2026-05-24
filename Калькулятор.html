@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+﻿image.png<!DOCTYPE html>
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
@@ -211,23 +211,25 @@
     select,
     input[type="number"],
     input[type="text"],
+    input[type="tel"],
     textarea {
       width: 100%;
       padding: 13px 14px;
-      border: 1px solid #cbd5e1;
+      border: 1px solid rgba(29, 66, 65, 0.16);
       border-radius: 12px;
       font-size: 15px;
       outline: none;
       transition: 0.2s ease;
-      background: #fff;
-      color: #111827;
+      background: rgba(29, 66, 65, 0.08);
+      color: #1d4241;
     }
 
     select:focus,
     input[type="number"]:focus,
     input[type="text"]:focus,
+    input[type="tel"]:focus,
     textarea:focus {
-      border-color: #1D4241;
+      border-color: #1d4241;
       box-shadow: 0 0 0 3px rgba(29, 66, 65, 0.14);
     }
 
@@ -253,20 +255,21 @@
     .meta-card {
       padding: 12px 14px;
       border-radius: 12px;
-      background: #eef6f5;
-      border: 1px solid #cfe1de;
+      background: rgba(29, 66, 65, 0.08);
+      border: 1px solid rgba(29, 66, 65, 0.16);
     }
 
     .meta-card-title {
       font-size: 12px;
-      color: #4b5563;
+      color: rgba(29, 66, 65, 0.78);
       margin-bottom: 4px;
+      font-weight: 600;
     }
 
     .meta-card-value {
       font-size: 14px;
       font-weight: bold;
-      color: #1D4241;
+      color: #1d4241;
       line-height: 1.4;
     }
 
@@ -375,8 +378,8 @@
       align-items: flex-start;
       gap: 10px;
       padding: 12px;
-      border: 1px solid #d5e5e3;
-      background: #ffffff;
+      border: 1px solid rgba(29, 66, 65, 0.16);
+      background: rgba(29, 66, 65, 0.08);
       border-radius: 12px;
     }
 
@@ -512,9 +515,9 @@
     .empty-state {
       padding: 14px;
       border-radius: 12px;
-      background: #ffffff;
-      border: 1px dashed #cbd5e1;
-      color: #64748b;
+      background: rgba(29, 66, 65, 0.08);
+      border: 1px solid rgba(29, 66, 65, 0.16);
+      color: rgba(29, 66, 65, 0.78);
       font-size: 14px;
       line-height: 1.5;
     }
@@ -580,6 +583,7 @@
     body.dark-theme select,
     body.dark-theme input[type="number"],
     body.dark-theme input[type="text"],
+    body.dark-theme input[type="tel"],
     body.dark-theme textarea {
       background: #111827;
       color: #f3f4f6;
@@ -735,16 +739,6 @@
     })();
   </script>
 
-  <!-- Кнопка переключения темы: фиксированно в правом верхнем углу -->
-  <button type="button" id="themeToggleBtn" class="theme-toggle" aria-label="Переключить тему">
-    🌙 Тёмная тема
-  </button>
-
-  <!-- Кнопка переключения языка (RU / EN): фиксированно в правом нижнем углу -->
-  <button type="button" id="langToggleBtn" class="lang-toggle" aria-label="Switch language">
-    EN
-  </button>
-
   <!-- Приветственный лендинг: короткое описание специалиста и быстрый вход в калькулятор -->
   <section class="landing">
     <h1 data-i18n="landing.title">Специалист по нейросетям для бизнеса</h1>
@@ -780,7 +774,7 @@
       <div class="calculator-header">
         <h1 data-i18n="calc.title">Калькулятор услуг специалиста по нейросетям</h1>
         <p class="calculator-disclaimer">
-          Запрос на услуги не является оформленным заказом. Все расчёты в калькуляторе — предварительные.
+          Запрос на услуги не является оформленным заказом. Окончательная стоимость определяется только после оформления проекта: в процессе работы могут понадобиться дополнительные инструменты, время и услуги.
           Окончательная стоимость проекта определяется только после оформления проекта: в процессе работы
           могут понадобиться дополнительные инструменты, время и услуги.
         </p>
@@ -918,16 +912,6 @@
                 Выбери услугу, укажи количество и нажми кнопку «Добавить услугу в предварительный расчёт».
               </div>
 
-              <div class="service-meta">
-                <div class="meta-card">
-                  <div class="meta-card-title" data-i18n="meta.priceFormat">Формат цены</div>
-                  <div class="meta-card-value" id="serviceUnitNote">Фиксированная цена</div>
-                </div>
-                <div class="meta-card">
-                  <div class="meta-card-title" data-i18n="meta.tariffType">Тип тарифа</div>
-                  <div class="meta-card-value" id="serviceFromNote">Фиксированная стоимость</div>
-                </div>
-              </div>
             </div>
 
             <div class="field">
@@ -1009,7 +993,7 @@
           </div>
 
           <div class="section">
-            <h2 data-i18n="section4.title">4. Доработки и ручная скидка</h2>
+            <h2 data-i18n="section4.title">4. Доработки</h2>
 
             <div class="field">
               <label for="extraHours" data-i18n="label.extraHours">Дополнительные часы работ</label>
@@ -1021,12 +1005,8 @@
               <input type="number" id="hourRate" min="0" step="100" value="2500" />
             </div>
 
-            <div class="field">
-              <label for="discount" data-i18n="label.discount">Дополнительная ручная скидка (%)</label>
-              <input type="number" id="discount" min="0" max="100" step="1" value="0" />
-              <div class="helper-text" data-i18n="helper.manualDiscount">
-                Эта скидка применяется отдельно после автоматической скидки 10%, если она сработала.
-              </div>
+            <div class="helper-text" data-i18n="helper.extraDiscount">
+              Дополнительная скидка 5% применяется автоматически, если сумма проекта превышает 200&nbsp;000&nbsp;₽. Скидки суммируются.
             </div>
           </div>
 
@@ -1050,13 +1030,8 @@
             <h2 data-i18n="result.title">Предварительный итоговый расчёт</h2>
             <div class="price-main" id="totalPrice">0 ₽</div>
 
-            <div class="result-note result-note--legal">
-              Сумма предварительная. Заявка в CRM не является оформленным заказом. Окончательная стоимость
-              согласуется после оформления проекта.
-            </div>
-
             <div class="result-note" id="resultNote" data-i18n="result.noteDefault">
-              Автоматическая скидка 10% применяется, если сумма услуг после коэффициентов вместе с доп. опциями превышает 20 000 ₽.
+              Автоматическая скидка 10% применяется, если сумма услуг после коэффициентов вместе с доп. опциями превышает 20 000 ₽. Дополнительная скидка 5% суммируется с ней, если сумма проекта превышает 200 000 ₽.
             </div>
 
             <div class="breakdown">
@@ -1105,9 +1080,9 @@
                 <strong id="extraHoursLabel">0 ₽</strong>
               </div>
 
-              <div class="breakdown-row">
-                <span data-i18n="breakdown.manual">Ручная скидка</span>
-                <strong id="discountLabel">0 ₽</strong>
+              <div class="breakdown-row discount-extra-row">
+                <span data-i18n="breakdown.extraDiscount">Дополнительная скидка 5%</span>
+                <strong id="discountLabel">− 0 ₽</strong>
               </div>
             </div>
 
@@ -1125,10 +1100,6 @@
             </div>
           </div>
 
-          <div class="footer-note" data-i18n="footer.note">
-            Подходит для Tilda, HTML-блоков, лендингов, Taplink и любых онлайн-конструкторов,
-            где можно вставить HTML + CSS + JS.
-          </div>
         </div>
       </div>
     </div>
@@ -1141,20 +1112,52 @@
     (function () {
       if (!document.documentElement.classList.contains("embed-mode")) return;
 
-      function postHeight() {
-        var height = Math.max(
-          document.body.scrollHeight,
-          document.documentElement.scrollHeight
-        );
-        if (window.parent && window.parent !== window) {
-          window.parent.postMessage({ type: "calc-embed-height", height: height }, "*");
+      function measureEmbedHeight() {
+        var root = document.getElementById("calculator") || document.querySelector(".calculator-wrapper");
+        var body = document.body;
+        var bodyStyle = window.getComputedStyle(body);
+        var padBottom = parseFloat(bodyStyle.paddingBottom) || 0;
+        var padTop = parseFloat(bodyStyle.paddingTop) || 0;
+
+        if (root) {
+          return Math.ceil(root.offsetTop + root.offsetHeight + padBottom);
         }
+
+        return Math.ceil(
+          Math.max(body.scrollHeight, document.documentElement.scrollHeight) + padTop + padBottom
+        );
       }
 
-      window.addEventListener("load", postHeight);
-      window.addEventListener("resize", postHeight);
+      function postHeight() {
+        if (!window.parent || window.parent === window) return;
+        window.parent.postMessage(
+          { type: "calc-embed-height", height: measureEmbedHeight() },
+          "*"
+        );
+      }
+
+      function schedulePostHeight() {
+        requestAnimationFrame(function () {
+          requestAnimationFrame(postHeight);
+        });
+      }
+
+      window.__postCalcEmbedHeight = schedulePostHeight;
+
+      window.addEventListener("load", schedulePostHeight);
+      window.addEventListener("resize", schedulePostHeight);
+
       if (typeof ResizeObserver !== "undefined") {
-        new ResizeObserver(postHeight).observe(document.body);
+        var ro = new ResizeObserver(schedulePostHeight);
+        var root = document.getElementById("calculator") || document.querySelector(".calculator-wrapper");
+        if (root) ro.observe(root);
+        ro.observe(document.body);
+        var services = document.getElementById("selectedServicesContainer");
+        var preview = document.getElementById("orderPreviewCard");
+        var summary = document.getElementById("summaryBox");
+        if (services) ro.observe(services);
+        if (preview) ro.observe(preview);
+        if (summary) ro.observe(summary);
       }
     })();
   </script>
