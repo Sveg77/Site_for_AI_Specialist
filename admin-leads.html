@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Заявки чат-бота — локальная админка</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .admin-wrap { padding: 32px 0 64px; }
+    .admin-wrap h1 { color: #f6f3ecdb; margin-top: 12px; }
+    .admin-wrap p { color: rgba(246, 243, 236, 0.85); }
+    .admin-tabs { display: flex; gap: 10px; flex-wrap: wrap; margin: 20px 0; }
+    .admin-tabs button {
+      padding: 8px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(246, 243, 236, 0.3);
+      background: rgba(29, 66, 65, 0.4);
+      color: #f6f3ecdb;
+      cursor: pointer;
+      font: inherit;
+    }
+    .admin-tabs button.is-active { background: #f6f3ecdb; color: #1d4241; }
+    .admin-list { display: grid; gap: 12px; }
+    .admin-card {
+      background: #f6f3ecdb;
+      color: #1d4241;
+      border-radius: 16px;
+      padding: 16px;
+    }
+    .admin-card h3 { margin: 0 0 8px; font-size: 1rem; }
+    .admin-meta { font-size: 0.85rem; opacity: 0.85; margin-bottom: 8px; }
+    .admin-card pre {
+      margin: 0;
+      white-space: pre-wrap;
+      font-size: 0.82rem;
+      background: rgba(29, 66, 65, 0.08);
+      padding: 10px;
+      border-radius: 10px;
+    }
+    .admin-empty { color: rgba(246, 243, 236, 0.7); font-style: italic; }
+    .admin-actions { margin-top: 16px; }
+  </style>
+</head>
+<body class="page-contacts">
+  <header class="site-header">
+    <div class="container header-row">
+      <a class="logo-wrap" href="index.html">
+        <img class="logo" src="Моя монограмма зеленый.png" alt="Логотип">
+        <div><div class="brand-title">Светлана Глазова</div><div class="brand-subtitle">Заявки чат-бота</div></div>
+      </a>
+      <nav class="nav" data-nav>
+        <a href="index.html">На сайт</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="section admin-wrap">
+    <div class="container">
+      <span class="label">Локально в браузере</span>
+      <h1 class="section-title">Заявки и диалоги чат-бота</h1>
+      <p>Данные читаются из <code>localStorage</code> этого браузера (тот же домен, что и сайт). На продакшене подключите CRM или <code>apiOrdersUrl</code> в конфиге бота.</p>
+
+      <div class="admin-tabs">
+        <button type="button" class="is-active" data-tab="orders">Заявки</button>
+        <button type="button" data-tab="chats">Диалоги</button>
+        <button type="button" data-tab="tickets">Тикеты</button>
+      </div>
+
+      <div class="admin-list" id="admin-list"></div>
+      <div class="admin-actions">
+        <button type="button" class="btn btn-ghost" id="admin-refresh">Обновить</button>
+        <button type="button" class="btn btn-ghost" id="admin-export">Скачать JSON</button>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    var ORDERS_KEY = "landingAdminOrders";
+    var CHATS_KEY = "landingAdminChats";
+    var activeTab = "orders";
+
+    function read(key) {
+      try {
+        var data = JSON.parse(localStorage.getItem(key) || "[]");
+        return Array.isArray(data) ? data : [];
+      } catch (e) {
+        return [];
+      }
+    }
+
+    function formatDate(iso) {
+      if (!iso) return "—";
+      try {
+        return new Date(iso).toLocaleString("ru-RU");
+      } catch (e) {
+        return iso;
+      }
+    }
+
+    function render() {
+      var list = document.getElementById("admin-list");
+      var orders = read(ORDERS_KEY);
+      var chats = read(CHATS_KEY);
+      var html = "";
+
+      if (activeTab === "orders") {
+        var botOrders = orders.filter(function (o) { return o.source === "chatbot"; });
+        if (!botOrders.length) {
+          html = '<p class="admin-empty">Заявок из чат-бота пока нет. Пройдите диалог на сайте в этом же браузере.</p>';
+        } else {
+          html = botOrders.map(function (o) {
+            return (
+              '<article class="admin-card">' +
+              "<h3>" + (o.clientName || "Без имени") + " · " + (o.id || "") + "</h3>" +
+              '<div class="admin-meta">' + formatDate(o.createdAt) + " · " + (o.status || "new") + "</div>" +
+              "<pre>" + (o.contact || "—") + "\n\n" + (o.task || "") +
+              (o.brief ? "\n\nБриф:\n" + JSON.stringify(o.brief, null, 2) : "") + "</pre></article>"
+            );
+          }).join("");
+        }
+      }
+
+      if (activeTab === "chats") {
+        if (!chats.length) {
+          html = '<p class="admin-empty">Диалогов нет.</p>';
+        } else {
+          html = chats.map(function (c) {
+            var msgs = (c.messages || []).slice(-4).map(function (m) {
+              return (m.role === "user" ? "Клиент" : "Бот") + ": " + m.text;
+            }).join("\n");
+            return (
+              '<article class="admin-card">' +
+              "<h3>" + (c.clientName || "Гость") + " · " + (c.id || "") + "</h3>" +
+              '<div class="admin-meta">' + formatDate(c.updatedAt) + "</div>" +
+              "<pre>" + (msgs || c.lastMessage || "—") + "</pre></article>"
+            );
+          }).join("");
+        }
+      }
+
+      if (activeTab === "tickets") {
+        var tickets = chats.filter(function (c) { return c.ticket; });
+        if (!tickets.length) {
+          html = '<p class="admin-empty">Открытых тикетов нет.</p>';
+        } else {
+          html = tickets.map(function (c) {
+            return (
+              '<article class="admin-card">' +
+              "<h3>" + (c.clientName || "Гость") + "</h3>" +
+              '<div class="admin-meta">' + (c.ticketReason || "Запрос оператора") + " · " + formatDate(c.updatedAt) + "</div>" +
+              "<pre>" + (c.lastMessage || "") + "</pre></article>"
+            );
+          }).join("");
+        }
+      }
+
+      list.innerHTML = html;
+    }
+
+    document.querySelectorAll("[data-tab]").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        document.querySelectorAll("[data-tab]").forEach(function (b) { b.classList.remove("is-active"); });
+        btn.classList.add("is-active");
+        activeTab = btn.getAttribute("data-tab");
+        render();
+      });
+    });
+
+    document.getElementById("admin-refresh").addEventListener("click", render);
+    document.getElementById("admin-export").addEventListener("click", function () {
+      var blob = new Blob(
+        [JSON.stringify({ orders: read(ORDERS_KEY), chats: read(CHATS_KEY) }, null, 2)],
+        { type: "application/json" }
+      );
+      var a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = "chatbot-export-" + Date.now() + ".json";
+      a.click();
+      URL.revokeObjectURL(a.href);
+    });
+
+    render();
+  </script>
+</body>
+</html>

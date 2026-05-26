@@ -8,7 +8,7 @@
 - login (`/login`)
 - калькулятор → CRM (`/calculator` — встроен `public/Калькулятор.html`, кнопка «Отправить в CRM»)
 - AI manager API (`/api/ai-manager`)
-- скрипт Telegram-бота (`telegram-bot.ts`, не входит в сборку Next)
+- Telegram-бот в ЛС (`telegram-bot.ts`, `npm run telegram` — тот же сценарий, что виджет на сайте)
 
 ## Стек
 

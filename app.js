@@ -51,3 +51,17 @@ if (heroCard && heroImage) {
     document.fonts.ready.then(scheduleHeroSync);
   }
 }
+
+window.siteChatbotConfig = window.siteChatbotConfig || {};
+if (!window.siteChatbotConfig.apiBase) {
+  window.siteChatbotConfig.apiBase = "http://localhost:3002";
+}
+
+(function loadChatbot() {
+  if (document.querySelector('script[data-chatbot]')) return;
+  var script = document.createElement("script");
+  script.src = "public/assets/js/chatbot.js";
+  script.defer = true;
+  script.setAttribute("data-chatbot", "1");
+  document.body.appendChild(script);
+})();
